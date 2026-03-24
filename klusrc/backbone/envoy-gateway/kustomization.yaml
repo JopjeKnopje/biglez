@@ -11,7 +11,6 @@ resources:
 
 patches:
   - path: patch-MutatingWebhookConfiguration.yaml
-  - path: namespace.yaml
 
   # Work around helm hooks causing kluctl to apply objects within the namespace
   # before the namespace itself exists.

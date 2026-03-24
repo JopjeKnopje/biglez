@@ -1,2 +1,9 @@
 deployments:
   - path: backbone/metallb
+  - path: backbone/envoy-gateway
+    waitReadiness: true
+
+
+  - path: deployments/nginx-test
+
+
