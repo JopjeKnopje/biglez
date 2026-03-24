@@ -6,6 +6,7 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
+    # TODO: This can I think be just the one ip
     - 192.168.1.32-192.168.1.40    # Range of IPs for ingress
 ---
 apiVersion: metallb.io/v1beta1
