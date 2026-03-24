@@ -1,0 +1,8 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: "envoy-gateway-topology-injector.envoy-gateway-system"
+  annotations:
+    # This field is generated in-cluster.  Without this setting kluctl tries to delete it on every deploy.
+    kluctl.io/ignore-diff-field: "webhooks[*].clientConfig.caBundle"
+

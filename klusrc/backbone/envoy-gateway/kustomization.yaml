@@ -1,0 +1,35 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: envoy-gateway-system
+
+resources:
+  # https://github.com/envoyproxy/gateway/releases/download/v1.7.0/install.yaml
+  - install.yaml
+  - gatewayclass.yaml
+  - config/envoy-gateway.yaml
+
+patches:
+  - path: patch-MutatingWebhookConfiguration.yaml
+  - path: namespace.yaml
+
+  # Work around helm hooks causing kluctl to apply objects within the namespace
+  # before the namespace itself exists.
+  #
+  # The down-side to this is that it makes the job re-run on each deploy.
+  #
+  # Removing these patches will cause `namespaces "envoy-gateway-system" not
+  # found` errors on deploy
+  #
+  # Alternative solutions would be applying the namespace first (before a kluctl
+  # barrier), or fixing the hook ordering logic in kluctl.
+  - target:
+      annotationSelector: "helm.sh/hook"
+    patch: |-
+      - op: remove
+        path: /metadata/annotations/helm.sh~1hook
+  - target:
+      annotationSelector: "helm.sh/hook-weight"
+    patch: |-
+      - op: remove
+        path: /metadata/annotations/helm.sh~1hook-weight

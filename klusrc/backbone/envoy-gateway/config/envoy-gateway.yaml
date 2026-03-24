@@ -1,0 +1,38 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: envoy
+  namespace: gateways
+  annotations:
+    cert-manager.io/issuer: envoy
+spec:
+  addresses:
+    - value: 192.168.1.32
+  gatewayClassName: envoy
+  listeners:
+    - name: http
+      protocol: HTTP
+      # Used for cert-manager and HTTP->HTTPs redirects for all hosts
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              gateway-certmanager: allowed
+    - name: auth-launchpad023-nl
+      hostname: auth.launchpad023.nl
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              app: keycloak
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: "cert-auth-launchpad023-nl"
+
+
