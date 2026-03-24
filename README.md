@@ -1,4 +1,12 @@
+## Requirements
+- kluctl: ahttps://kluctl.io/docs/kluctl/installation/#installation-with-bash
+- kubectl: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-kubectl-binary-with-curl-on-linux
+- talosctl: https://docs.siderolabs.com/talos/v1.10/getting-started/talosctl#alternative-install
+
+
+
 ## Install steps
+
 
 1. Boot from the USB device on the server, and note down its IP address.
 
