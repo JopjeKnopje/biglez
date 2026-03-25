@@ -21,7 +21,7 @@ spec:
     #         matchLabels:
     #           gateway-certmanager: allowed
     - name: main
-      hostname: 192.168.1.32
+      hostname: thuis.joppeboeve.nl
       port: 80
       protocol: HTTP
       allowedRoutes:
@@ -37,8 +37,8 @@ spec:
       #
 
 
-    - name: test
-      hostname: test.com
+    - name: main
+      hostname: 192.168.1.32
       port: 80
       protocol: HTTP
       allowedRoutes:
