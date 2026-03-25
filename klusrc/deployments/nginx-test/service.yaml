@@ -4,9 +4,9 @@ metadata:
   name: nginx-service
 spec:
   selector:
-    app.kubernetes.io/name: nginx
+    app: nginx
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8000
+      targetPort: 80
 

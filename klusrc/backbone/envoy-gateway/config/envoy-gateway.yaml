@@ -20,7 +20,7 @@ spec:
     #       selector:
     #         matchLabels:
     #           gateway-certmanager: allowed
-    - name: auth-launchpad023-nl
+    - name: main
       hostname: 192.168.1.32
       port: 80
       protocol: HTTP
@@ -36,3 +36,11 @@ spec:
       #     - name: "cert-auth-launchpad023-nl"
       #
 
+
+    - name: test
+      hostname: test.com
+      port: 80
+      protocol: HTTP
+      allowedRoutes:
+        namespaces:
+          from: All
