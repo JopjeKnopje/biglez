@@ -6,4 +6,4 @@ export KUBECONFIG := "talos/kubeconfig"
 
 
 kluctl-deploy:
-	kluctl deploy
+	kluctl deploy --prune --replace-on-error

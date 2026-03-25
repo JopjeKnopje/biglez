@@ -5,7 +5,7 @@ metadata:
 spec:
   parentRefs:
   - name: envoy
-    namespace: envoy-gateway-system
+    namespace: gateways
   rules:
     - backendRefs:
       - name: nginx-service

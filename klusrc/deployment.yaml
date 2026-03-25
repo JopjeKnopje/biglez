@@ -1,7 +1,9 @@
 deployments:
   - path: backbone/metallb
-  - path: backbone/envoy-gateway
+  - path: backbone/cert-manager
+  - path: backbone/envoy-gateway-system
     waitReadiness: true
+  - path: backbone/gateways
 
 
   - path: deployments/nginx-test

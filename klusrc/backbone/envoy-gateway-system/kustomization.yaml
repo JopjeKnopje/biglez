@@ -7,10 +7,10 @@ resources:
   # https://github.com/envoyproxy/gateway/releases/download/v1.7.0/install.yaml
   - install.yaml
   - gatewayclass.yaml
-  - config/envoy-gateway.yaml
 
 patches:
   - path: patch-MutatingWebhookConfiguration.yaml
+  - path: namespace.yaml
 
   # Work around helm hooks causing kluctl to apply objects within the namespace
   # before the namespace itself exists.
