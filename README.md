@@ -1,3 +1,6 @@
+## About
+This is my own "homelab" yadi yada setup, largely based on: https://codeberg.org/launchpad023/launchpad023-infra/
+
 ## Requirements
 - kluctl: ahttps://kluctl.io/docs/kluctl/installation/#installation-with-bash
 - kubectl: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-kubectl-binary-with-curl-on-linux
