@@ -50,7 +50,7 @@ Put the output in `controlplane.yaml` in the `install.image`
 Apply the config
 
 ```bash
-talosctl apply-config --file talos/controlplane.yaml 
+talosctl apply-config --file talos/controlplane.yaml
 ```
 
 Installed kernel modules 
