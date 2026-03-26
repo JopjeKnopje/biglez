@@ -77,7 +77,7 @@ machine:
     # Used to provide instructions for installations.
     install:
         disk: /dev/sda # The disk used for installations.
-        image: factory.talos.dev/metal-installer/613e1592b2da41ae5e265e8789429f22e121aab91cb4deb6bc3c0b6262961245:v1.12.6
+        image: ghcr.io/siderolabs/installer:v1.12.6 # Allows for supplying the image used to perform the installation.
         wipe: false # Indicates if the installation disk should be wiped at installation time.
         grubUseUKICmdline: true # Indicates if legacy GRUB bootloader should use kernel cmdline from the UKI instead of building it on the host.
         
@@ -185,13 +185,13 @@ machine:
     #           format: json_lines # Logs format.
 
     # # Configures the kernel.
-    kernel:
+    # kernel:
         # Kernel modules to load.
-        modules:
-            - name: nbd
-            - name: iscsi_tcp
-            - name: iscsi_generic
-            - name: configfs
+        # modules:
+        #     - name: nbd
+        #     - name: iscsi_tcp
+        #     - name: iscsi_generic
+            # - name: configfs
 
     # # Configures the seccomp profiles for the machine.
     # seccompProfiles:
