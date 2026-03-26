@@ -30,12 +30,12 @@ talosctl bootstrap -n 192.168.1.32 -e 192.168.1.32 --talosconfig talos/talosconf
 Dashboard
 ```bash
 talosctl dashboard --talosconfig ./talos/talosconfig -n 192.168.1.32 -e 192.168.1.32
-talosctl --talosconfig ./talosconfig -n 192.168.1.32 -e 192.168.1.32 services
+talosctl services
 ```
 
 
 ```bash
-talosctl apply-config --nodes 192.168.1.32 -e 192.168.1.32 --file talos/controlplane.yaml --talosconfig talos/talosconfig
+talosctl apply-config --file talos/controlplane.yaml 
 ```
 
 ### 2026-03-25
@@ -55,5 +55,5 @@ talosctl apply-config --file talos/controlplane.yaml
 
 Installed kernel modules 
 ```bash
-talosctl upgrade --image factory.talos.dev/metal-installer/613e1592b2da41ae5e265e8789429f22e121aab91cb4deb6bc3c0b6262961245:v1.12.6  
+talosctl upgrade --image factory.talos.dev/metal-installer/613e1592b2da41ae5e265e8789429f22e121aab91cb4deb6bc3c0b6262961245:v1.12.6
 ```
