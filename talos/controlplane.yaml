@@ -34,9 +34,9 @@ machine:
 
         # # The `extraMounts` field is used to add additional mounts to the kubelet container.
         extraMounts:
-            - destination: /var/lib/longhorn # Destination is the absolute path where the mount will be placed in the container.
+            - destination: /var/mnt/longhorn # Destination is the absolute path where the mount will be placed in the container.
               type: bind # Type specifies the mount kind.
-              source: /var/lib/longhorn # Source specifies the source path of the mount.
+              source: /var/mnt/longhorn # Source specifies the source path of the mount.
               # Options are fstab style mount options.
               options:
                 - bind

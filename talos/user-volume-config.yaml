@@ -1,0 +1,18 @@
+# https://docs.siderolabs.com/talos/v1.12/reference/configuration/block/uservolumeconfig#filesystem
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: longhorn # Name of the volume.
+volumeType: partition # Volume type.
+# The provisioning describes how the volume is provisioned.
+provisioning:
+    # The disk selector expression.
+    diskSelector:
+        match: disk.dev_path == "/dev/sdb" # The Common Expression Language (CEL) expression to match the disk.
+
+    # # The minimum size of the volume.
+    # minSize: 2.5GiB
+    maxSize: 200GiB
+# The filesystem describes how the volume is formatted.
+filesystem:
+    type: xfs # Filesystem type. Default is `xfs`.
+# The encryption describes how the volume is encrypted.
