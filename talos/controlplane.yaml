@@ -1,3 +1,4 @@
+# DOCX: https://docs.siderolabs.com/talos/v1.9/reference/configuration/v1alpha1/config
 version: v1alpha1 # Indicates the schema used to decode the contents.
 debug: false # Enable verbose logging to the console.
 persist: true
@@ -16,6 +17,20 @@ machine:
     #   - 172.16.0.10
     #   - 192.168.0.10
 
+    # https://docs.siderolabs.com/talos/v1.9/reference/configuration/v1alpha1/config#disks
+    # mount a disk to the talos machine
+    disks:
+        - device: /dev/sdb # The name of the disk to use.
+          # A list of partitions to create on the disk.
+          partitions:
+            - mountpoint: /var/mnt/hdd_1 # Where to mount the partition.
+
+              # # The size of partition: either bytes or human readable representation. If `size:` is omitted, the partition is sized to occupy the full disk.
+
+              # # Human readable representation.
+              # size: 100 MB
+              # # Precise value in bytes.
+              # size: 1073741824
     # Used to provide additional options to the kubelet.
     kubelet:
         image: ghcr.io/siderolabs/kubelet:v1.35.2 # The `image` field is an optional reference to an alternative kubelet image.
@@ -33,9 +48,9 @@ machine:
 
         # # The `extraMounts` field is used to add additional mounts to the kubelet container.
         extraMounts:
-            - destination: /dev/sdb # Destination is the absolute path where the mount will be placed in the container.
+            - destination: /var/lib/longhorn # Destination is the absolute path where the mount will be placed in the container.
               type: bind # Type specifies the mount kind.
-              source: /dev/sdb # Source specifies the source path of the mount.
+              source: /var/mnt/hdd_1 # Source specifies the source path of the mount.
               # Options are fstab style mount options.
               options:
                 - bind
@@ -51,7 +66,7 @@ machine:
         #     apiVersion: kubelet.config.k8s.io/v1
         #     kind: CredentialProviderConfig
         #     providers:
-        #         - apiVersion: credentialprovider.kubelet.k8s.io/v1
+        #         - apiVersion: credentialprovider.k2ubelet.k8s.io/v1
         #           defaultCacheDuration: 12h
         #           matchImages:
         #             - '*.dkr.ecr.*.amazonaws.com'
