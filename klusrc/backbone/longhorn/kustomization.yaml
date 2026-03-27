@@ -5,7 +5,6 @@ namespace: longhorn-system
 
 resources:
   - install.yaml
-  - settings/default-data-path.yaml
 
 
 patches:
@@ -13,7 +12,7 @@ patches:
     target:
       kind: Namespace
       name: longhorn-system
-  # - path: settings/default-data-path.yaml
-  #   target:
-  #     name: default-data-path
-  #     kind: Setting
+  - path: default-settings-patch.yaml
+    target:
+      name: longhorn-default-setting
+      kind: ConfigMap
