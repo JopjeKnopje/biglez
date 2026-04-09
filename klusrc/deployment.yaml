@@ -7,6 +7,9 @@ deployments:
     waitReadiness: true
 
 
+  - path: backbone/local-path-provisioner
+    waitReadiness: true
+
 
   - path: deployments/nginx-test
 

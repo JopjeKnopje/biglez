@@ -393,4 +393,13 @@ cluster:
 apiVersion: v1alpha1
 kind: HostnameConfig
 hostname: DELL-7050
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: local-path-provisioner
+provisioning:
+  diskSelector:
+    # grab the only other drive in this system
+    match: "!system_disk"
+  maxSize: 128GB
 
