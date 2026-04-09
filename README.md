@@ -14,33 +14,55 @@ This is my own "homelab" yadi yada setup, largely based on: https://codeberg.org
 
 ## Install steps
 
+I installed talos through a bootable [Ventoy](https://www.ventoy.net/en/download.html) USB stick, then once its running take note if its IP address in the dashboard view (the main screen you see when its running).
 
-1. Boot from the USB device on the server, and note down its IP address.
+Then from another computer run the following commands
 
-
-Use that IP to access it.
 ```bash
-talosctl get disks --nodes http://192.168.1.13 --insecure
-talosctl gen config biglez https://192.168.1.13:6443/
-talosctl apply-config --nodes http://192.168.1.13/ --insecure --file talos/controlplane.yaml
-# get the newly acquired configs into our env
-source set-env.sh
-talosctl bootstrap
-# generate kubeconfig (which will be put under)
-talosctl kubeconfig
+# save the IP address in your env
+export TALOS_IP=192.168.1.13
 ```
 
 
-Dashboard
+find out what disks are avaliable, so we can later set it as our install location.
+
 ```bash
-talosctl dashboard --talosconfig ./talos/talosconfig -n 192.168.1.32 -e 192.168.1.32
+talosctl get disks --nodes http:/$TALOS_IP --insecure
+```
+
+
+
+Generate the talos config this will generate both a controlplane.yaml and worker.yaml. Since I'm just running 1 node, that node will be both the controlplane and the worker.
+In order for this to work you need to set `cluster.allowSchedulingOnControlPlanes: true`.
+
+```bash
+talosctl gen config biglez https://$TALOS_IP:6443/
+```
+
+
+Make some other changes to the config if you wish to do so, and apply it.
+
+```bash
+talosctl apply-config --nodes http://$TALOS_IP/ --insecure --file talos/controlplane.yaml
+# get the newly acquired configs into our env
+source set-env.sh
+# setup the k8s server
+talosctl bootstrap
+# generate kubeconfig
+talosctl kubeconfig
+# access it
+kubectl get pods -n kube-system
+```
+
+
+## Handy commands
+```bash
+# same view as the one being output on the display output
+talosctl dashboard
 talosctl services
 ```
 
 
-```bash
-talosctl apply-config --file talos/controlplane.yaml 
-```
 
 ### 2026-03-25
 
