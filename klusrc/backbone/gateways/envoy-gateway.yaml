@@ -6,7 +6,7 @@ metadata:
     cert-manager.io/issuer: envoy
 spec:
   addresses:
-    - value: 192.168.1.32
+    - value: 192.168.1.13
   gatewayClassName: envoy
   listeners:
     - name: http
@@ -37,7 +37,7 @@ spec:
 
 
     - name: lan
-      hostname: 192.168.1.32
+      hostname: 192.168.1.13
       port: 80
       protocol: HTTP
       allowedRoutes:
