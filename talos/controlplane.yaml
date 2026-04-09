@@ -224,7 +224,7 @@ cluster:
     secret: n2yCmKkIAUNhcZKtd5Rt0+oG/RHUEY3l0BDYJf+biqM= # Shared secret of cluster (base64 encoded random 32 bytes).
     # Provides control plane specific configuration options.
     controlPlane:
-        endpoint: https://192.168.1.13:6443/ # Endpoint is the canonical controlplane endpoint, which can be an IP address or a DNS hostname.
+        endpoint: https://192.168.1.14:6443/ # Endpoint is the canonical controlplane endpoint, which can be an IP address or a DNS hostname.
     clusterName: biglez # Configures the cluster's name.
     # Provides cluster specific network configuration options.
     network:

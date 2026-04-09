@@ -9,4 +9,4 @@ kluctl-deploy:
 	kluctl deploy --prune --replace-on-error
 
 talos-apply:
-	talosctl apply-config --file talos/controlplane.yaml 
+	talosctl apply-config --file talos/controlplane.yaml
