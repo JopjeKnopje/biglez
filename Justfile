@@ -10,5 +10,4 @@ kluctl-deploy:
 
 talos-apply:
 	talosctl apply-config --file talos/controlplane.yaml 
-talos-patch:
 	talosctl patch mc --patch @talos/user-volume-config.yaml

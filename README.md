@@ -20,10 +20,14 @@ This is my own "homelab" yadi yada setup, largely based on: https://codeberg.org
 
 Use that IP to access it.
 ```bash
-talosctl gen config biglez https://192.168.1.32:6443/
-talosctl get disks --nodes http://192.168.1.32 --insecure
-talosctl apply-config --nodes http://192.168.1.32/ --insecure --file talos/controlplane.yaml
-talosctl bootstrap -n 192.168.1.32 -e 192.168.1.32 --talosconfig talos/talosconfig
+talosctl get disks --nodes http://192.168.1.13 --insecure
+talosctl gen config biglez https://192.168.1.13:6443/
+talosctl apply-config --nodes http://192.168.1.13/ --insecure --file talos/controlplane.yaml
+# get the newly acquired configs into our env
+source set-env.sh
+talosctl bootstrap
+# generate kubeconfig (which will be put under)
+talosctl kubeconfig
 ```
 
 
