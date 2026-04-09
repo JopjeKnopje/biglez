@@ -392,8 +392,5 @@ cluster:
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig
-auto: stable # A method to automatically generate a hostname for the machine.
+hostname: DELL-7050
 
-# # A static hostname to set for the machine.
-# hostname: controlplane1
-# hostname: controlplane1.example.org
