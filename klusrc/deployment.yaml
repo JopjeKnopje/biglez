@@ -6,8 +6,6 @@ deployments:
   - path: backbone/gateways
     waitReadiness: true
 
-  - path: backbone/longhorn
-    waitReadiness: true
 
 
   - path: deployments/nginx-test

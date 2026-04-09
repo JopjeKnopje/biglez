@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: required-for-kustomize
-data:
-  default-setting.yaml: |-
-    priority-class: longhorn-critical
-    disable-revision-counter: true
-    default-replica-count: 1
