@@ -15,5 +15,8 @@ deployments:
 
 
   - path: deployments/nginx-test
+    waitReadiness: true
 
+  - path: deployments/immich
+    waitReadiness: true
 

@@ -19,7 +19,8 @@ spec:
           selector:
             matchLabels:
               gateway-certmanager: allowed
-    - name: main
+
+    - name: thuis-joppeboeve-nl
       hostname: thuis.joppeboeve.nl
       port: 443
       protocol: HTTPS
@@ -33,6 +34,21 @@ spec:
         mode: Terminate
         certificateRefs:
           - name: "cert-auth-thuis-joppeboeve-nl"
+
+    - name: immich-joppeboeve-nl
+      hostname: immich.joppeboeve.nl
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              name: immich-traffic
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: "cert-auth-immich-joppeboeve-nl"
 
 
 
