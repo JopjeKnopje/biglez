@@ -10,6 +10,9 @@ deployments:
   - path: backbone/local-path-provisioner
     waitReadiness: true
 
+  - path: backbone/cloudnative-pg
+    waitReadiness: true
+
 
   - path: deployments/nginx-test
 
