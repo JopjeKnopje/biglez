@@ -9,4 +9,4 @@ spec:
   resources:
     requests:
       # being ignored by immich, I think this is a local-path-provsioner limitation
-      storage: 48Gi
+      storage: 100Gi
