@@ -7,5 +7,6 @@ resources:
   - namespace.yaml
   - cloudnative-pg.yaml
   - pvc.yaml
+  - immich-config.yaml
   - helm-render/install.yaml
   - httproute.yaml

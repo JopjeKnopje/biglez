@@ -56,9 +56,8 @@ immich:
     #   template: "{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}"
   # Sets the resource Kind to store configuration in. Must be either ConfigMap or Secret.
   configurationKind: ConfigMap
-
   # Specify existing configuration resource name here to skip creation of a new one
-  # existingConfiguration:
+  existingConfiguration: immich-config
 
 # Dependencies
 
