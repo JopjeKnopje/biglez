@@ -13,10 +13,13 @@ deployments:
   - path: backbone/cloudnative-pg
     waitReadiness: true
 
+  - path: backbone/external-snapshotter
+    waitReadiness: true
 
   - path: deployments/nginx-test
     waitReadiness: true
 
   - path: deployments/immich
     waitReadiness: true
+
 

@@ -63,6 +63,32 @@ talosctl services
 ```
 
 
+## Restic backup
+Manually fire a cronjob
+```
+kubectl create job --from=cronjob/<cronjob-name> <job-name> -n <namespace-name>
+```
+
+
+### 2026-04-18: Got rid of volsync
+Set up a cronjob for running restic instead, volsync didn't offer any actual support for the SFTP backend of restic. Mainly because you couldn't mount the ssh-config file in a VolSync spawned pod. I didn't wanna switch to hetzner s3 buckets because that would double the price.
+
+https://dave.gv.ca/posts/kubernetes-restic/#always-check-your-logs
+
+### 2026-04-16: Restic secret setup
+
+Creating the secret. I should probably use an external secret manager for this, like bitwarden.
+```bash
+kubectl -n immich create secret generic restic-config 
+--from-literal=RESTIC_REPOSITORY=hetzner/immich 
+--from-literal=RESTIC_PASSWORD=<password> 
+--from-file=id_rsa=/home/joppe/.ssh/hetzner_immich
+--from-file=ssh-config=$PWD/klusrc/deployments/immich/ssh-config
+--dry-run=client -o=yaml | xclip
+```
+
+https://docs.hetzner.com/storage/storage-box/backup-space-ssh-keys/
+https://github.com/backube/volsync/issues/671
 
 ### 2026-03-25
 
