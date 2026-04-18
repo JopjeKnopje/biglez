@@ -16,6 +16,9 @@ deployments:
   - path: backbone/external-snapshotter
     waitReadiness: true
 
+  - path: backbone/reloader
+    waitReadiness: true
+
   - path: deployments/nginx-test
     waitReadiness: true
 

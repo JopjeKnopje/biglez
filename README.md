@@ -2,7 +2,7 @@
 This is my own "homelab" yadi yada setup, largely based on: https://codeberg.org/launchpad023/launchpad023-infra/
 
 ## Requirements
-- kluctl: ahttps://kluctl.io/docs/kluctl/installation/#installation-with-bash
+- kluctl: https://kluctl.io/docs/kluctl/installation/#installation-with-bash
 - kubectl: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-kubectl-binary-with-curl-on-linux
 - talosctl: https://docs.siderolabs.com/talos/v1.10/getting-started/talosctl#alternative-install
 
@@ -69,12 +69,35 @@ Manually fire a cronjob
 kubectl create job --from=cronjob/<cronjob-name> <job-name> -n <namespace-name>
 ```
 
+# Todo 
+- [ ] Fix security warnings when deploying pods
+- [ ] Setup [Sealed-Secrets](https://github.com/bitnami-labs/sealed-secrets) or some other external secret manager
+
 
 ### 2026-04-18: Got rid of volsync
 Set up a cronjob for running restic instead, volsync didn't offer any actual support for the SFTP backend of restic. Mainly because you couldn't mount the ssh-config file in a VolSync spawned pod. I didn't wanna switch to hetzner s3 buckets because that would double the price.
 
 https://dave.gv.ca/posts/kubernetes-restic/#always-check-your-logs
 
+#### Upload ssh key to hetzner
+I was being lazy, before creating the storage-box I added a secondary SSH-key to hetzner specifically for the backup service.
+
+If you want you can also use something like.
+```bash
+ssh-copy-id -p 23 -i ~/.ssh/hetzner_immich.pub -s hetzner
+```
+
+> [!note]
+> I've added `hetzner` to my `~/.ssh/config` file here.
+
+#### Use sealed-secrets
+https://github.com/bitnami-labs/sealed-secrets#will-you-still-be-able-to-decrypt-if-you-no-longer-have-access-to-your-cluster
+
+#### Manually intialize 
+This is pretty dirty, but I can't be bothered with setting up automagic job.
+
+**TODO: https://fuzznotes.com/posts/restic-backups-for-your-self-hosted-apps/**
+TODO: https://dave.gv.ca/posts/kubernetes-restic/#always-check-your-logs
 ### 2026-04-16: Restic secret setup
 
 Creating the secret. I should probably use an external secret manager for this, like bitwarden.
