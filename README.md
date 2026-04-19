@@ -10,8 +10,11 @@ _• Kubernetes on Talos Linux •_
 This repo contains the configuration for my homecluster running on a *Dell OptiPlex 7050 Micro*, which is efficient.
 The main focus of this setup is to have the infrastructure as code, which makes it easy to "record" the state of the cluster in git.
 
-Its currently just hosting a deadsimple immich instance, but its a nice canvas to run more workloads in the future.
-This setup is large based on the [`launchpad023`](https://codeberg.org/launchpad023/launchpad023-infra/) config which proved to be a good example.
+Its currently just hosting a dead simple [immich](https://immich.app/) instance, but its a nice canvas to run more workloads in the future.
+For secret management I'm running [External Secrets Operator](https://external-secrets.io/latest/) hooked up to the Free Tier of [Bitwarden Secret Manager](https://bitwarden.com/help/secrets-manager-plans/) and paired with [Reloader](https://docs.stakater.com/reloader/latest/)
+
+This setup is large based on the [launchpad023](https://codeberg.org/launchpad023/launchpad023-infra/) config which proved to be a good example.
+
 
 
 ## Depenencies
