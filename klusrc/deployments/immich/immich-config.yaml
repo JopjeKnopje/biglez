@@ -2,6 +2,7 @@ kind: ConfigMap
 metadata:
   name: immich-config
 apiVersion: v1
+# TODO: Read this from an actual json file
 data:
   immich-config.yaml: |
     {
