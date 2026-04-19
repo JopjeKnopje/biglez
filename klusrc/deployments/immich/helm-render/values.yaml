@@ -1,9 +1,7 @@
 ## This chart relies on the common library chart from bjw-s
 ## You can find it at https://github.com/bjw-s-labs/helm-charts/tree/common-4.3.0/charts/library/common
 ## Refer there for more detail about the supported values
-
 # These entries are shared between all the Immich components
-
 controllers:
   main:
     containers:
@@ -33,7 +31,6 @@ controllers:
               secretKeyRef:
                 name: immich-database-app
                 key: dbname
-
 immich:
   metrics:
     # Enabling this will create the service monitors needed to monitor immich with the prometheus operator
@@ -48,19 +45,17 @@ immich:
   # ref: https://immich.app/docs/install/config-file/
   #
   configuration: {}
-    # trash:
-    #   enabled: false
-    #   days: 30
-    # storageTemplate:
-    #   enabled: true
-    #   template: "{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}"
+  # trash:
+  #   enabled: false
+  #   days: 30
+  # storageTemplate:
+  #   enabled: true
+  #   template: "{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}"
   # Sets the resource Kind to store configuration in. Must be either ConfigMap or Secret.
   configurationKind: ConfigMap
   # Specify existing configuration resource name here to skip creation of a new one
   existingConfiguration: immich-config
-
 # Dependencies
-
 valkey:
   enabled: true
   controllers:
@@ -79,9 +74,7 @@ valkey:
       type: emptyDir
       accessMode: ReadWriteOnce
       # storageClass: your-class
-
 # Immich components
-
 server:
   enabled: true
   controllers:
@@ -104,7 +97,6 @@ server:
               service:
                 identifier: main
       tls: []
-
 machine-learning:
   enabled: true
   controllers:

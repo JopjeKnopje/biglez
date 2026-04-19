@@ -1,8 +1,6 @@
 bitwarden-sdk-server:
   enabled: true
-
 installCRDs: false
-
 webhook:
   certManager:
     enabled: true

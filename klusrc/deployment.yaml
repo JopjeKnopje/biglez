@@ -5,27 +5,17 @@ deployments:
     waitReadiness: true
   - path: backbone/gateways
     waitReadiness: true
-
-
   - path: backbone/local-path-provisioner
     waitReadiness: true
-
   - path: backbone/cloudnative-pg
     waitReadiness: true
-
   - path: backbone/external-snapshotter
     waitReadiness: true
-
   - path: backbone/external-secrets
     waitReadiness: true
-
   - path: backbone/reloader
     waitReadiness: true
-
   - path: deployments/nginx-test
     waitReadiness: true
-
   - path: deployments/immich
     waitReadiness: true
-
-

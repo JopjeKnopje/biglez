@@ -1,11 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-
-
 resources:
   # https://github.com/cert-manager/cert-manager/releases/download/v1.19.4/cert-manager.yaml
   - install.yaml
-
 patches:
   - path: namespace.yaml
   # Append the enable-gateway-api config argument to the controller args
@@ -16,4 +13,3 @@ patches:
       name: cert-manager
       namespace: cert-manager
     path: patch-enable-gateway-api.yaml
-

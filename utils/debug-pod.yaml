@@ -4,41 +4,41 @@ metadata:
   name: restic-test
 spec:
   containers:
-  - name: main
-    command: ["/bin/sh"]
-    args: ["-c", "while true; do echo app1:$(date -u) >> /data/test.log; sleep 5; done"]
-    env:
-    - name: RESTIC_PASSWORD      # Set the secrets according to
-      valueFrom:                 # your situation
-        secretKeyRef:
-          key: RESTIC_PASSWORD
-          name: restic-config
-    - name: RESTIC_REPOSITORY
-      valueFrom:
-        secretKeyRef:
-          key: RESTIC_REPOSITORY
-          name: restic-config
-    image: restic/restic
-    imagePullPolicy: Always
-    volumeMounts:
-    - mountPath: /root/.ssh/config   # For SFTP repo
-      name: ssh-config
-      subPath: config
-    - mountPath: /root/.ssh/id_rsa
-      name: ssh-key
-      subPath: id_rsa
+    - name: main
+      command: ["/bin/sh"]
+      args: ["-c", "while true; do echo app1:$(date -u) >> /data/test.log; sleep 5; done"]
+      env:
+        - name: RESTIC_PASSWORD # Set the secrets according to
+          valueFrom: # your situation
+            secretKeyRef:
+              key: RESTIC_PASSWORD
+              name: restic-config
+        - name: RESTIC_REPOSITORY
+          valueFrom:
+            secretKeyRef:
+              key: RESTIC_REPOSITORY
+              name: restic-config
+      image: restic/restic
+      imagePullPolicy: Always
+      volumeMounts:
+        - mountPath: /root/.ssh/config # For SFTP repo
+          name: ssh-config
+          subPath: config
+        - mountPath: /root/.ssh/id_rsa
+          name: ssh-key
+          subPath: id_rsa
   volumes:
-  - name: ssh-config    # For SFTP restic repos
-    secret:
-      defaultMode: 256
-      items:
-        - key: ssh-config
-          path: config
-      secretName: restic-config
-  - name: ssh-key
-    secret:
-      defaultMode: 256
-      items:
-        - key: id_rsa
-          path: id_rsa
-      secretName: restic-config
+    - name: ssh-config # For SFTP restic repos
+      secret:
+        defaultMode: 256
+        items:
+          - key: ssh-config
+            path: config
+        secretName: restic-config
+    - name: ssh-key
+      secret:
+        defaultMode: 256
+        items:
+          - key: id_rsa
+            path: id_rsa
+        secretName: restic-config

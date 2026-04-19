@@ -45,7 +45,7 @@ spec:
       protocol: TCP
       name: http
       appProtocol: kubernetes.io/ws
-        
+
   selector:
     app.kubernetes.io/controller: main
     app.kubernetes.io/instance: immich
@@ -101,11 +101,11 @@ spec:
       app.kubernetes.io/instance: immich
   template:
     metadata:
-      labels: 
+      labels:
         app.kubernetes.io/controller: main
         app.kubernetes.io/instance: immich
         app.kubernetes.io/name: machine-learning
-    spec: 
+    spec:
       enableServiceLinks: false
       serviceAccountName: default
       automountServiceAccountToken: true
@@ -113,7 +113,7 @@ spec:
       hostNetwork: false
       hostPID: false
       dnsPolicy: ClusterFirst
-      containers: 
+      containers:
         - env:
           - name: DB_DATABASE_NAME
             valueFrom:
@@ -179,7 +179,7 @@ spec:
           volumeMounts:
           - mountPath: /cache
             name: cache
-      volumes: 
+      volumes:
         - emptyDir: {}
           name: cache
 ---
@@ -208,11 +208,11 @@ spec:
       app.kubernetes.io/instance: immich
   template:
     metadata:
-      labels: 
+      labels:
         app.kubernetes.io/controller: main
         app.kubernetes.io/instance: immich
         app.kubernetes.io/name: server
-    spec: 
+    spec:
       enableServiceLinks: false
       serviceAccountName: default
       automountServiceAccountToken: true
@@ -220,7 +220,7 @@ spec:
       hostNetwork: false
       hostPID: false
       dnsPolicy: ClusterFirst
-      containers: 
+      containers:
         - env:
           - name: DB_DATABASE_NAME
             valueFrom:
@@ -284,7 +284,7 @@ spec:
             name: config
           - mountPath: /data
             name: data
-      volumes: 
+      volumes:
         - configMap:
             name: immich-config
           name: config
@@ -317,11 +317,11 @@ spec:
       app.kubernetes.io/instance: immich
   template:
     metadata:
-      labels: 
+      labels:
         app.kubernetes.io/controller: main
         app.kubernetes.io/instance: immich
         app.kubernetes.io/name: valkey
-    spec: 
+    spec:
       enableServiceLinks: false
       serviceAccountName: default
       automountServiceAccountToken: true
@@ -329,7 +329,7 @@ spec:
       hostNetwork: false
       hostPID: false
       dnsPolicy: ClusterFirst
-      containers: 
+      containers:
         - env:
           - name: DB_DATABASE_NAME
             valueFrom:
@@ -395,6 +395,6 @@ spec:
           volumeMounts:
           - mountPath: /data
             name: data
-      volumes: 
+      volumes:
         - emptyDir: {}
           name: data

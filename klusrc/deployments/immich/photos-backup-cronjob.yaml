@@ -16,60 +16,60 @@ spec:
           creationTimestamp: null
         spec:
           containers:
-          - args:
-            - backup
-            - --host
-            - cronjob-pod
-            - /home/photos/ # Match with the mountPath below
-            env:
-            - name: RESTIC_PASSWORD      # Set the secrets according to
-              valueFrom:                 # your situation
-                secretKeyRef:
-                  key: RESTIC_PASSWORD
-                  name: restic-config
-            - name: RESTIC_REPOSITORY
-              valueFrom:
-                secretKeyRef:
-                  key: RESTIC_REPOSITORY
-                  name: restic-config
-            image: restic/restic
-            imagePullPolicy: Always
-            name: immich-backup
-            resources: {}
-            terminationMessagePath: /dev/termination-log
-            terminationMessagePolicy: File
-            volumeMounts:
-            - mountPath: /root/.ssh/config   # For SFTP repo
-              name: ssh-config
-              subPath: config
-            - mountPath: /root/.ssh/id_rsa
-              name: ssh-key
-              subPath: id_rsa
-            - mountPath: /home/photos    # Match with command arguments above
-              name: data
+            - args:
+                - backup
+                - --host
+                - cronjob-pod
+                - /home/photos/ # Match with the mountPath below
+              env:
+                - name: RESTIC_PASSWORD # Set the secrets according to
+                  valueFrom: # your situation
+                    secretKeyRef:
+                      key: RESTIC_PASSWORD
+                      name: restic-config
+                - name: RESTIC_REPOSITORY
+                  valueFrom:
+                    secretKeyRef:
+                      key: RESTIC_REPOSITORY
+                      name: restic-config
+              image: restic/restic
+              imagePullPolicy: Always
+              name: immich-backup
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /root/.ssh/config # For SFTP repo
+                  name: ssh-config
+                  subPath: config
+                - mountPath: /root/.ssh/id_rsa
+                  name: ssh-key
+                  subPath: id_rsa
+                - mountPath: /home/photos # Match with command arguments above
+                  name: data
           dnsPolicy: ClusterFirst
           restartPolicy: OnFailure
           schedulerName: default-scheduler
           securityContext: {}
           terminationGracePeriodSeconds: 30
           volumes:
-          - name: ssh-config    # For SFTP restic repos
-            secret:
-              defaultMode: 256
-              items:
-              - key: ssh-config
-                path: config
-              secretName: restic-config
-          - name: ssh-key
-            secret:
-              defaultMode: 256
-              items:
-              - key: id_rsa
-                path: id_rsa
-              secretName: restic-config
-          - name: data
-            persistentVolumeClaim:
-              claimName: immich-user-data    # Your PVC you want to backup
+            - name: ssh-config # For SFTP restic repos
+              secret:
+                defaultMode: 256
+                items:
+                  - key: ssh-config
+                    path: config
+                secretName: restic-config
+            - name: ssh-key
+              secret:
+                defaultMode: 256
+                items:
+                  - key: id_rsa
+                    path: id_rsa
+                secretName: restic-config
+            - name: data
+              persistentVolumeClaim:
+                claimName: immich-user-data # Your PVC you want to backup
   schedule: 0 02 * * *
   successfulJobsHistoryLimit: 3
   suspend: false

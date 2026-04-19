@@ -1,0 +1,28 @@
+exclude: '^klusrc/\.helm-charts/'
+repos:
+  - repo: builtin
+    hooks:
+      - id: check-added-large-files
+      - id: check-json
+      - id: check-yaml
+        args:
+          - "--allow-multiple-documents"
+      - id: check-xml
+      - id: check-merge-conflict
+      - id: detect-private-key
+        exclude: "klusrc/backbone/external-secrets/crds.yaml"
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: pretty-format-json
+        args:
+          - "--autofix"
+  - repo: https://github.com/google/yamlfmt
+    rev: v0.21.0
+    hooks:
+      - id: yamlfmt
+        # don't reformat install.yaml files that we've gotten from external sources
+        exclude: "install.yaml$"

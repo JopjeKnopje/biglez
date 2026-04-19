@@ -4,9 +4,9 @@ metadata:
   name: httproute-ngnix
 spec:
   parentRefs:
-  - name: envoy
-    namespace: gateways
+    - name: envoy
+      namespace: gateways
   rules:
     - backendRefs:
-      - name: nginx-service
-        port: 80
+        - name: nginx-service
+          port: 80

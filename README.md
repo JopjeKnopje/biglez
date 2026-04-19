@@ -6,7 +6,7 @@ This is my own "homelab" yadi yada setup, largely based on: https://codeberg.org
 - kubectl: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-kubectl-binary-with-curl-on-linux
 - talosctl: https://docs.siderolabs.com/talos/v1.10/getting-started/talosctl#alternative-install
 
-### Additional tools 
+### Additional tools
 - k9s: https://github.com/derailed/k9s/releases/tag/v0.50.18
 - kluctl: https://kluctl.io/docs/kluctl/installation/#installation-with-bash
 
@@ -64,7 +64,7 @@ talosctl services
 
 
 ## Cluster bootstrapping
-### Restic backup 
+### Restic backup
 I don't have a job setup to initialize the restic repo yet, so for now that's gotta happen manaually.
 
 ```bash
@@ -102,7 +102,7 @@ Manually fire a cronjob
 kubectl create job --from=cronjob/<cronjob-name> <job-name> -n <namespace-name>
 ```
 
-# Todo 
+# Todo
 - [ ] Fix security warnings when deploying pods
 - [x] Setup ESO
 - [ ] Setup ESO With reloader, to automagicaclly update secrets when they've changed in bitwarden.
@@ -134,7 +134,7 @@ ssh-copy-id -p 23 -i ~/.ssh/hetzner_immich.pub -s hetzner
 #### Use sealed-secrets
 https://github.com/bitnami-labs/sealed-secrets#will-you-still-be-able-to-decrypt-if-you-no-longer-have-access-to-your-cluster
 
-#### Manually intialize 
+#### Manually intialize
 This is pretty dirty, but I can't be bothered with setting up automagic job.
 
 **TODO: https://fuzznotes.com/posts/restic-backups-for-your-self-hosted-apps/**
@@ -143,9 +143,9 @@ TODO: https://dave.gv.ca/posts/kubernetes-restic/#always-check-your-logs
 
 Creating the secret. I should probably use an external secret manager for this, like bitwarden.
 ```bash
-kubectl -n immich create secret generic restic-config 
---from-literal=RESTIC_REPOSITORY=hetzner/immich 
---from-literal=RESTIC_PASSWORD=<password> 
+kubectl -n immich create secret generic restic-config
+--from-literal=RESTIC_REPOSITORY=hetzner/immich
+--from-literal=RESTIC_PASSWORD=<password>
 --from-file=id_rsa=/home/joppe/.ssh/hetzner_immich
 --from-file=ssh-config=$PWD/klusrc/deployments/immich/ssh-config
 --dry-run=client -o=yaml | xclip
@@ -169,7 +169,7 @@ Apply the config
 talosctl apply-config --file talos/controlplane.yaml
 ```
 
-Installed kernel modules 
+Installed kernel modules
 ```bash
 talosctl upgrade --image factory.talos.dev/metal-installer/613e1592b2da41ae5e265e8789429f22e121aab91cb4deb6bc3c0b6262961245:v1.12.6
 ```

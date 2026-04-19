@@ -4,9 +4,9 @@ metadata:
   name: httproute-immich
 spec:
   parentRefs:
-  - name: envoy
-    namespace: gateways
+    - name: envoy
+      namespace: gateways
   rules:
     - backendRefs:
-      - name: immich-server
-        port: 2283
+        - name: immich-server
+          port: 2283

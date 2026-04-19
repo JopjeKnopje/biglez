@@ -1,5 +1,4 @@
 discriminator: "kluctl-{{ target.name }}"
-
 targets:
   - name: biglez
     context: admin@biglez

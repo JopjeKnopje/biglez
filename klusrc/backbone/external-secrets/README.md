@@ -9,4 +9,3 @@ curl -O https://raw.githubusercontent.com/external-secrets/external-secrets/<VER
 ```bash
 helm template external-secrets external-secrets/external-secrets -n external-secrets -f helm-render/values.yaml > helm-render/install.yaml
 ```
-

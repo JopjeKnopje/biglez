@@ -187,4 +187,3 @@ spec:
       - configMap:
           name: local-path-config
         name: config-volume
-
