@@ -16,6 +16,9 @@ deployments:
   - path: backbone/external-snapshotter
     waitReadiness: true
 
+  - path: backbone/external-secrets
+    waitReadiness: true
+
   - path: backbone/reloader
     waitReadiness: true
 

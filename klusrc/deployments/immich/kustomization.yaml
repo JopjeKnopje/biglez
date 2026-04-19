@@ -10,5 +10,5 @@ resources:
   - immich-config.yaml
   - helm-render/install.yaml
   - httproute.yaml
-  - restic-config-secret.yaml
   - photos-backup-cronjob.yaml
+  - external-secret.yaml
