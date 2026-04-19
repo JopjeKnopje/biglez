@@ -6,7 +6,11 @@ namespace: external-secrets
 # installed the crds with curl -O https://raw.githubusercontent.com/external-secrets/external-secrets/v2.3.0/deploy/crds/bundle.yaml
 resources:
   - namespace.yaml
-  - install.yaml
+  - helm-render/install.yaml
   - crds.yaml
+  - bitwarden/issuer.yaml
+  - bitwarden/certs.yaml
+  - bitwarden/cluster-secret-store.yaml
+  # - bitwarden/token-secret.yaml # manually generated see README
 
 

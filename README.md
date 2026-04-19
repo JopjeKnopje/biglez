@@ -63,6 +63,39 @@ talosctl services
 ```
 
 
+## Cluster bootstrapping
+### Restic backup 
+I don't have a job setup to initialize the restic repo yet, so for now that's gotta happen manaually.
+
+```bash
+restic -r $RESTIC_REPOSITORY init
+```
+
+> [!NOTE]
+> The `RESTIC_REPOSITORY` is set in a secret.
+
+
+### External secrets bitwarden setup
+I created a "machine account" in Bitwarden Secrets Manager, I used the [Free tier](https://bitwarden.com/products/secrets-manager/#pricing). It allows you to have up to 3 machine-accounts and 3 projects, so its plenty for the home gamer.
+
+The bitwarden access token is not being version controlled (for obvious reasons 🤓), you can create the secret with the following command instead.
+
+```bash
+kubectl create secret generic bitwarden-access-token --from-literal=token=$BW_ACCESS_TOKEN -n <NAMESPACE>
+```
+
+
+TODO: Once I got the configmap templating figured out, use that instead?
+
+
+#### Refreshing external-secrets
+You can just delete it, the CRD will create a new one, or run the following command
+
+```bash
+kubectl annotate es <NAME> force-sync=$(date +%s) --overwrite -n <NAMESPACE>
+```
+
+
 ## Restic backup
 Manually fire a cronjob
 ```
@@ -71,8 +104,16 @@ kubectl create job --from=cronjob/<cronjob-name> <job-name> -n <namespace-name>
 
 # Todo 
 - [ ] Fix security warnings when deploying pods
-- [ ] Setup [Sealed-Secrets](https://github.com/bitnami-labs/sealed-secrets) or some other external secret manager
+- [x] Setup ESO
+- [ ] Setup ESO With reloader, to automagicaclly update secrets when they've changed in bitwarden.
+- [ ] Add some kind of variable system, so I can (for example) set the namespace in the generated helm render from external-secrets. Instead of having to run `helm template ..... -n <namespace>` when this namespace is already set in the `kustomization.yaml`
+- [ ] ~Go through git history and purge any published secrets~ rotate all secrets instead.
 
+
+### 2026-04-19: Bitwarden
+I Installed ESO and the [bitwarden-sdk-server](https://external-secrets.io/latest/provider/bitwarden-secrets-manager/)
+https://wiki.privatetrace.io/en/Kubernetes/Security/external-secrets
+https://external-secrets.io/latest/provider/bitwarden-secrets-manager/
 
 ### 2026-04-18: Got rid of volsync
 Set up a cronjob for running restic instead, volsync didn't offer any actual support for the SFTP backend of restic. Mainly because you couldn't mount the ssh-config file in a VolSync spawned pod. I didn't wanna switch to hetzner s3 buckets because that would double the price.

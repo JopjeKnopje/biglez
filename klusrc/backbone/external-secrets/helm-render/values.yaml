@@ -1,0 +1,15 @@
+bitwarden-sdk-server:
+  enabled: true
+
+installCRDs: false
+
+webhook:
+  certManager:
+    enabled: true
+    addInjectorAnnotations: true
+    cert:
+      create: true
+      issuerRef:
+        group: cert-manager.io
+        kind: Issuer
+        name: eso-webhook-ca-issuer

@@ -1,0 +1,29 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: bitwarden-bootstrap-issuer
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: bitwarden-ca-issuer
+spec:
+  ca:
+    secretName: bitwarden-root-ca
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: eso-webhook-bootstrap-issuer
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: eso-webhook-ca-issuer
+spec:
+  ca:
+    secretName: eso-webhook-root-ca

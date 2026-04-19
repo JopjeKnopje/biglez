@@ -1,16 +1,15 @@
 ---
-# Source: external-secrets/templates/cert-controller-serviceaccount.yaml
+# Source: external-secrets/charts/bitwarden-sdk-server/templates/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: external-secrets-cert-controller
+  name: bitwarden-sdk-server
   namespace: external-secrets
   labels:
-    
-    helm.sh/chart: external-secrets-2.3.0
-    app.kubernetes.io/name: external-secrets-cert-controller
+    helm.sh/chart: bitwarden-sdk-server-v0.6.0
+    app.kubernetes.io/name: bitwarden-sdk-server
     app.kubernetes.io/instance: external-secrets
-    app.kubernetes.io/version: "v2.3.0"
+    app.kubernetes.io/version: "v0.6.0"
     app.kubernetes.io/managed-by: Helm
 ---
 # Source: external-secrets/templates/serviceaccount.yaml
@@ -39,105 +38,6 @@ metadata:
     app.kubernetes.io/instance: external-secrets
     app.kubernetes.io/version: "v2.3.0"
     app.kubernetes.io/managed-by: Helm
----
-# Source: external-secrets/templates/webhook-secret.yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: external-secrets-webhook
-  namespace: external-secrets
-  labels:
-    
-    helm.sh/chart: external-secrets-2.3.0
-    app.kubernetes.io/name: external-secrets-webhook
-    app.kubernetes.io/instance: external-secrets
-    app.kubernetes.io/version: "v2.3.0"
-    app.kubernetes.io/managed-by: Helm
-    external-secrets.io/component: webhook
----
-# Source: external-secrets/templates/cert-controller-rbac.yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: external-secrets-cert-controller
-  labels:
-    
-    helm.sh/chart: external-secrets-2.3.0
-    app.kubernetes.io/name: external-secrets-cert-controller
-    app.kubernetes.io/instance: external-secrets
-    app.kubernetes.io/version: "v2.3.0"
-    app.kubernetes.io/managed-by: Helm
-rules:
-  - apiGroups:
-    - "apiextensions.k8s.io"
-    resources:
-    - "customresourcedefinitions"
-    verbs:
-    - "get"
-    - "list"
-    - "watch"
-    - "update"
-    - "patch"
-  - apiGroups:
-    - "admissionregistration.k8s.io"
-    resources:
-    - "validatingwebhookconfigurations"
-    verbs:
-    - "list"
-    - "watch"
-    - "get"
-  - apiGroups:
-    - "admissionregistration.k8s.io"
-    resources:
-    - "validatingwebhookconfigurations"
-    resourceNames:
-    - "secretstore-validate"
-    - "externalsecret-validate"
-    verbs:
-    - "update"
-    - "patch"
-  - apiGroups:
-    - ""
-    resources:
-    - "endpoints"
-    verbs:
-    - "list"
-    - "get"
-    - "watch"
-  - apiGroups:
-    - "discovery.k8s.io"
-    resources:
-    - "endpointslices"
-    verbs:
-    - "list"
-    - "get"
-    - "watch"
-  - apiGroups:
-    - ""
-    resources:
-    - "events"
-    verbs:
-    - "create"
-    - "patch"
-  - apiGroups:
-    - ""
-    resources:
-    - "secrets"
-    verbs:
-    - "get"
-    - "list"
-    - "watch"
-    - "update"
-    - "patch"
-  - apiGroups:
-    - "coordination.k8s.io"
-    resources:
-    - "leases"
-    verbs:
-    - "get"
-    - "create"
-    - "update"
-    - "patch"
 ---
 # Source: external-secrets/templates/rbac.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -419,27 +319,6 @@ rules:
     - "list"
     - "watch"
 ---
-# Source: external-secrets/templates/cert-controller-rbac.yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: external-secrets-cert-controller
-  labels:
-    
-    helm.sh/chart: external-secrets-2.3.0
-    app.kubernetes.io/name: external-secrets-cert-controller
-    app.kubernetes.io/instance: external-secrets
-    app.kubernetes.io/version: "v2.3.0"
-    app.kubernetes.io/managed-by: Helm
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: external-secrets-cert-controller
-subjects:
-  - name: external-secrets-cert-controller
-    namespace: external-secrets
-    kind: ServiceAccount
----
 # Source: external-secrets/templates/rbac.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -520,6 +399,28 @@ subjects:
     name: external-secrets
     namespace: external-secrets
 ---
+# Source: external-secrets/charts/bitwarden-sdk-server/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: bitwarden-sdk-server
+  namespace: external-secrets
+  labels:
+    helm.sh/chart: bitwarden-sdk-server-v0.6.0
+    app.kubernetes.io/name: bitwarden-sdk-server
+    app.kubernetes.io/instance: external-secrets
+    app.kubernetes.io/version: "v0.6.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9998
+      targetPort: http
+      name: http
+  selector:
+    app.kubernetes.io/name: bitwarden-sdk-server
+    app.kubernetes.io/instance: external-secrets
+---
 # Source: external-secrets/templates/webhook-service.yaml
 apiVersion: v1
 kind: Service
@@ -546,77 +447,69 @@ spec:
     app.kubernetes.io/name: external-secrets-webhook
     app.kubernetes.io/instance: external-secrets
 ---
-# Source: external-secrets/templates/cert-controller-deployment.yaml
+# Source: external-secrets/charts/bitwarden-sdk-server/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: external-secrets-cert-controller
+  name: bitwarden-sdk-server
   namespace: external-secrets
   labels:
-    
-    helm.sh/chart: external-secrets-2.3.0
-    app.kubernetes.io/name: external-secrets-cert-controller
+    helm.sh/chart: bitwarden-sdk-server-v0.6.0
+    app.kubernetes.io/name: bitwarden-sdk-server
     app.kubernetes.io/instance: external-secrets
-    app.kubernetes.io/version: "v2.3.0"
+    app.kubernetes.io/version: "v0.6.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
-  revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app.kubernetes.io/name: external-secrets-cert-controller
+      app.kubernetes.io/name: bitwarden-sdk-server
       app.kubernetes.io/instance: external-secrets
   template:
     metadata:
       labels:
-        
-        helm.sh/chart: external-secrets-2.3.0
-        app.kubernetes.io/name: external-secrets-cert-controller
+        app.kubernetes.io/name: bitwarden-sdk-server
         app.kubernetes.io/instance: external-secrets
-        app.kubernetes.io/version: "v2.3.0"
-        app.kubernetes.io/managed-by: Helm
     spec:
-      serviceAccountName: external-secrets-cert-controller
-      automountServiceAccountToken: true
-      hostNetwork: false
+      serviceAccountName: bitwarden-sdk-server
+      securityContext:
+        {}
       containers:
-        - name: cert-controller
+        - name: bitwarden-sdk-server
           securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-              - ALL
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-            runAsUser: 1000
-            seccompProfile:
-              type: RuntimeDefault
-          image: ghcr.io/external-secrets/external-secrets:v2.3.0
+            {}
+          image: "ghcr.io/external-secrets/bitwarden-sdk-server:v0.6.0"
           imagePullPolicy: IfNotPresent
-          args:
-          - certcontroller
-          - --crd-requeue-interval=5m
-          - --service-name=external-secrets-webhook
-          - --service-namespace=external-secrets
-          - --secret-name=external-secrets-webhook
-          - --secret-namespace=external-secrets
-          - --metrics-addr=:8080
-          - --healthz-addr=:8081
-          - --loglevel=info
-          - --zap-time-encoding=epoch
+          volumeMounts:
+            - mountPath: /certs
+              name: bitwarden-tls-certs
           ports:
-            - containerPort: 8080
+            - name: http
+              containerPort: 9998
               protocol: TCP
-              name: metrics
-            - containerPort: 8081
-              protocol: TCP
-              name: ready
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: http
+              scheme: HTTPS
           readinessProbe:
             httpGet:
-              port: ready
-              path: /readyz
-            initialDelaySeconds: 20
-            periodSeconds: 5
+              path: /ready
+              port: http
+              scheme: HTTPS
+          resources:
+            {}
+      volumes:
+        - name: bitwarden-tls-certs
+          secret:
+            secretName: bitwarden-tls-certs
+            items:
+              - key: tls.crt
+                path: cert.pem
+              - key: tls.key
+                path: key.pem
+              - key: ca.crt
+                path: ca.pem
 ---
 # Source: external-secrets/templates/deployment.yaml
 apiVersion: apps/v1
@@ -769,6 +662,8 @@ metadata:
     app.kubernetes.io/version: "v2.3.0"
     app.kubernetes.io/managed-by: Helm
     external-secrets.io/component: webhook
+  annotations:
+    cert-manager.io/inject-ca-from: external-secrets/external-secrets-webhook
 webhooks:
 - name: "validate.secretstore.external-secrets.io"
   rules:
@@ -816,6 +711,8 @@ metadata:
     app.kubernetes.io/version: "v2.3.0"
     app.kubernetes.io/managed-by: Helm
     external-secrets.io/component: webhook
+  annotations:
+    cert-manager.io/inject-ca-from: external-secrets/external-secrets-webhook
 webhooks:
 - name: "validate.externalsecret.external-secrets.io"
   rules:
@@ -833,3 +730,30 @@ webhooks:
   sideEffects: None
   timeoutSeconds: 5
   failurePolicy: Fail
+---
+# Source: external-secrets/templates/webhook-certificate.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: external-secrets-webhook
+  namespace: external-secrets
+  labels:
+    
+    helm.sh/chart: external-secrets-2.3.0
+    app.kubernetes.io/name: external-secrets-webhook
+    app.kubernetes.io/instance: external-secrets
+    app.kubernetes.io/version: "v2.3.0"
+    app.kubernetes.io/managed-by: Helm
+    external-secrets.io/component: webhook
+spec:
+  commonName: external-secrets-webhook
+  dnsNames:
+    - external-secrets-webhook
+    - external-secrets-webhook.external-secrets
+    - external-secrets-webhook.external-secrets.svc
+  issuerRef:
+    group: cert-manager.io
+    kind: Issuer
+    name: eso-webhook-ca-issuer
+  duration: "8760h0m0s"
+  secretName: external-secrets-webhook

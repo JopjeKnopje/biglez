@@ -20,7 +20,6 @@ spec:
             - backup
             - --host
             - cronjob-pod
-            - --tag=photos
             - /home/photos/ # Match with the mountPath below
             env:
             - name: RESTIC_PASSWORD      # Set the secrets according to
@@ -71,6 +70,6 @@ spec:
           - name: data
             persistentVolumeClaim:
               claimName: immich-user-data    # Your PVC you want to backup
-  schedule: 38 10 * * *                   # But when?
+  schedule: 0 02 * * *
   successfulJobsHistoryLimit: 3
   suspend: false

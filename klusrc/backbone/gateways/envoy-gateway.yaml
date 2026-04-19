@@ -44,7 +44,7 @@ spec:
           from: Selector
           selector:
             matchLabels:
-              name: immich-traffic
+              name: httproute-immich
       tls:
         mode: Terminate
         certificateRefs:

@@ -3,4 +3,4 @@ kind: Namespace
 metadata:
   name: immich
   labels:
-    name: immich-traffic
+    name: httproute-immich
