@@ -6,14 +6,21 @@ _• Kubernetes on Talos Linux •_
 <br />
 </div>
 
-## Overview
-This repo contains the configuration for my homecluster running on a *Dell OptiPlex 7050 Micro*, which is efficient.
-The main focus of this setup is to have the infrastructure as code, which makes it easy to "record" the state of the cluster in git.
 
-Its currently just hosting a dead simple [immich](https://immich.app/) instance, but its a nice canvas to run more workloads in the future.
+This repo contains the configuration for my homecluster running on a *Dell OptiPlex 7050 Micro*, which is a pretty  efficient machine. It consumes about `18w` while idling the currently deployed workloads, with my current energy contract that be around `~50EUR` a year.
+The main focus of this setup is to have the cluster _Infrastructure as Code_, which makes it easy to "record" the state of the cluster in git.
+
+Its currently just hosting a dead simple [immich](https://immich.app/) instance, with a hetzner [Storage Box](https://www.hetzner.com/storage/storage-box/) for backups.
 For secret management I'm running [External Secrets Operator](https://external-secrets.io/latest/) hooked up to the Free Tier of [Bitwarden Secret Manager](https://bitwarden.com/help/secrets-manager-plans/) and paired with [Reloader](https://docs.stakater.com/reloader/latest/)
-
 This setup is large based on the [launchpad023](https://codeberg.org/launchpad023/launchpad023-infra/) config which proved to be a good example.
+<br/>
+
+More about the costs of running this thing.
+For the server's power consumption I assumed a `20h` period of idling and `4h` of max CPU usage (for example when running the immich ML pods)
+The yearly costs of running just the server would be the previously mentioned `~50EUR`.
+
+Adding the hetzner storage bucket adds an extra `46.44EUR`, so lets say about `100EUR` a year.
+Previously I was using a hetzner [Nextcloud](https://www.hetzner.com/storage/storage-share/) instance which is absolutely dogshit for hosting photos btw. As an added bonus it also cost `206EUR` a year 🤡🤡🤡
 
 
 
