@@ -16,7 +16,9 @@ This setup is large based on the [launchpad023](https://codeberg.org/launchpad02
 <br/>
 
 ## Cost savings
-Its not _just_ the power bill, so here's more about the costs of running this thing.
+More about the costs of running this thing.
+For the server's power consumption I assumed a `20h` period of idling and `4h` of max CPU usage (for example when running the immich ML pods)
+The yearly costs of running just the server would be the previously mentioned `~50EUR`.
 
 For calculating the server's power consumption I assumed a `20h` period of idling and `4h` of max CPU usage (for example when running the immich ML pods)
 Taking those numbers into account the yearly costs of running just the server would be the previously mentioned `~50EUR`.
@@ -145,6 +147,17 @@ kubectl create job --from=cronjob/<cronjob-name> <job-name> -n <namespace-name>
 
 
 ## Notes 'n Thoughts
+### 2026-04-21: Problems :(
+- I've noticed that sometimes (about every hour) one of the [ESO](https://external-secrets.io/) pods has an certificate issue.
+### Hetzner
+The Hetzner storage bucket is just fucking unreachable at random, causing the backups to fail.
+When I try to SSH into it from within my LAN I get a `Network is unreachable`, which I don't fully understand because `traceroute` seems to work fine. So its definitely not a DNS issue.
+It seems to be a LAN issue, when I use my mobile hot spot the uptime seems to be good.
+
+#### Dig
+When running dig I noticed the TTL was 30 seconds, my current theory is that my router has a setting regarding that.
+
+
 
 ### 2026-04-19: Bitwarden
 I Installed ESO and the [bitwarden-sdk-server](https://external-secrets.io/latest/provider/bitwarden-secrets-manager/)
