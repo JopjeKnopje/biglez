@@ -3,6 +3,8 @@ kind: CronJob
 metadata:
   name: immich-photo-backup
   namespace: immich
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   concurrencyPolicy: Forbid
   failedJobsHistoryLimit: 1
@@ -10,6 +12,8 @@ spec:
     metadata:
       creationTimestamp: null
       name: immich-photo-backup
+      annotations:
+        reloader.stakater.com/auto: "true"
     spec:
       template:
         metadata:
@@ -21,6 +25,7 @@ spec:
                 - --host
                 - cronjob-pod
                 - /home/photos/ # Match with the mountPath below
+                - -v
               env:
                 - name: RESTIC_PASSWORD # Set the secrets according to
                   valueFrom: # your situation
