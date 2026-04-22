@@ -158,6 +158,9 @@ It seems to be a LAN issue, when I use my mobile hot spot the uptime seems to be
 When running dig I noticed the TTL was 30 seconds, my current theory is that my router has a setting regarding that.
 
 
+### 2026-04-23: Hetzner
+Looks like the hetzner "problem" fixed itself, I talked with the Odido (ISP) people. They were gonna do some black box remote "fixing", they were being very vague about it. After that it seemed to magically work.
+
 
 ### 2026-04-19: Bitwarden
 I Installed ESO and the [bitwarden-sdk-server](https://external-secrets.io/latest/provider/bitwarden-secrets-manager/)
