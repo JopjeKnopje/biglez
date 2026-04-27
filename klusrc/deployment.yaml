@@ -19,3 +19,8 @@ deployments:
     waitReadiness: true
   - path: deployments/immich
     waitReadiness: true
+  # - path: deployments/pihole
+  #   waitReadiness: true
+
+  - path: components/podsecurity
+    onlyRender: true
