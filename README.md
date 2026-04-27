@@ -86,7 +86,7 @@ This is really simple, just run.
 just kluctl-deploy
 ```
 
-When deploying for the first time, make sure to checkout the [initial cluster setup](#initial_cluster_setup) instructions.
+When deploying for the first time, make sure to checkout the [initial cluster setup](#initial-cluster-setup) instructions.
 
 
 
