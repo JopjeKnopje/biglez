@@ -1,29 +1,22 @@
 apiVersion: cert-manager.io/v1
-kind: Issuer
+kind: Certificate
 metadata:
-  name: bitwarden-bootstrap-issuer
+  name: bitwarden-tls-certs
+  namespace: default
 spec:
-  selfSigned: {}
----
-apiVersion: cert-manager.io/v1
-kind: Issuer
-metadata:
-  name: bitwarden-ca-issuer
-spec:
-  ca:
-    secretName: bitwarden-root-ca
----
-apiVersion: cert-manager.io/v1
-kind: Issuer
-metadata:
-  name: eso-webhook-bootstrap-issuer
-spec:
-  selfSigned: {}
----
-apiVersion: cert-manager.io/v1
-kind: Issuer
-metadata:
-  name: eso-webhook-ca-issuer
-spec:
-  ca:
-    secretName: eso-webhook-root-ca
+  secretName: bitwarden-tls-certs
+  dnsNames:
+    - bitwarden-sdk-server.default.svc.cluster.local
+    - external-secrets-bitwarden-sdk-server.default.svc.cluster.local
+    - localhost
+  ipAddresses:
+    - 127.0.0.1
+    - ::1
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS8
+    size: 2048
+  issuerRef:
+    name: bitwarden-certificate-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io

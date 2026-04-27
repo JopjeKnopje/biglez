@@ -1,33 +1,26 @@
 apiVersion: cert-manager.io/v1
-kind: Certificate
+kind: ClusterIssuer
 metadata:
-  name: bitwarden-bootstrap-ca
+  name: bitwarden-bootstrap-issuer
 spec:
-  isCA: true
-  commonName: bitwarden-sdk-root-ca
-  secretName: bitwarden-root-ca
-  subject:
-    organizations:
-      - external-secrets.io
-  privateKey:
-    algorithm: RSA
-    encoding: PKCS8
-    size: 2048
-  issuerRef:
-    name: bitwarden-bootstrap-issuer
-    kind: Issuer
-    group: cert-manager.io
+  selfSigned: {}
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: bitwarden-sdk-server-tls
+  name: bitwarden-bootstrap-certificate
+  namespace: cert-manager
 spec:
+  # this is discouraged but required by ios
+  commonName: cert-manager-bitwarden-tls
+  isCA: true
   secretName: bitwarden-tls-certs
+  subject:
+    organizations:
+      - external-secrets.io
   dnsNames:
-    - bitwarden-sdk-server.external-secrets.svc.cluster.local
-    - bitwarden-sdk-server.external-secrets.svc
-    - bitwarden-sdk-server
+    - external-secrets-bitwarden-sdk-server.default.svc.cluster.local
+    - bitwarden-sdk-server.default.svc.cluster.local
     - localhost
   ipAddresses:
     - 127.0.0.1
@@ -37,27 +30,14 @@ spec:
     encoding: PKCS8
     size: 2048
   issuerRef:
-    name: bitwarden-ca-issuer
-    kind: Issuer
+    name: bitwarden-bootstrap-issuer
+    kind: ClusterIssuer
     group: cert-manager.io
 ---
 apiVersion: cert-manager.io/v1
-kind: Certificate
+kind: ClusterIssuer
 metadata:
-  name: eso-webhook-bootstrap-ca
-  namespace: external-secrets
+  name: bitwarden-certificate-issuer
 spec:
-  isCA: true
-  commonName: eso-webhook-root-ca
-  secretName: eso-webhook-root-ca
-  subject:
-    organizations:
-      - external-secrets.io
-  privateKey:
-    algorithm: RSA
-    encoding: PKCS8
-    size: 2048
-  issuerRef:
-    name: eso-webhook-bootstrap-issuer
-    kind: Issuer
-    group: cert-manager.io
+  ca:
+    secretName: bitwarden-tls-certs

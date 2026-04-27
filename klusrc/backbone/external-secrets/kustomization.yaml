@@ -8,5 +8,7 @@ resources:
   - crds.yaml
   - bitwarden/issuer.yaml
   - bitwarden/certs.yaml
+  - issuer.yaml
+  - certs.yaml
   - bitwarden/cluster-secret-store.yaml
   # - bitwarden/token-secret.yaml # manually generated see README
