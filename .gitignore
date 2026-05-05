@@ -1,2 +1,4 @@
-talos/kubeconfig
-talos/talosconfig
+kubeconfig
+talosconfig
+secrets.yaml
+controlplane-generated.yaml

@@ -1,2 +1,6 @@
-export KUBECONFIG=talos/kubeconfig
-export TALOSCONFIG=talos/talosconfig
+JUST_VARS=$(eval just --evaluate | awk '{print "export "$1"="$3}')
+
+for var in ${JUST_VARS}; do
+	echo ${var}
+	eval ${var}
+done

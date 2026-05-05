@@ -11,8 +11,8 @@ This repo contains the configuration for my homecluster running on a *Dell OptiP
 The main focus of this setup is to have the cluster _Infrastructure as Code_, which makes it easy to "record" the state of the cluster in git.
 
 Its currently just hosting a dead simple [immich](https://immich.app/) instance, with a Hetzner [Storage Box](https://www.hetzner.com/storage/storage-box/) for backups.
-For secret management I'm running [External Secrets Operator](https://external-secrets.io/latest/) hooked up to the Free Tier of [Bitwarden Secret Manager](https://bitwarden.com/help/secrets-manager-plans/) and paired with [Reloader](https://docs.stakater.com/reloader/latest/)
-This setup is large based on the [launchpad023](https://codeberg.org/launchpad023/launchpad023-infra/) config which proved to be a good example.
+For secret management I'm running [External Secrets Operator](https://external-secrets.io/latest/) hooked up to the Free Tier of [Bitwarden Secret Manager](https://bitwarden.com/help/secrets-manager-plans/) paired with [Reloader](https://docs.stakater.com/reloader/latest/)
+This setup is large based on the [launchpad023](https://codeberg.org/launchpad023/launchpad023-infra/) config which is a nice example of how to set things up.
 <br/>
 
 ## Cost savings
@@ -45,40 +45,50 @@ Handy stuff
 
 I installed talos through a bootable [Ventoy](https://www.ventoy.net/en/download.html) USB stick. Take note if its IP address in the dashboard view (the main screen you see when its running).
 
+It is highy recommended to assign the Talos machine a static ip address, this will prevent head-aches in the future.
+
 Then from another computer run the following commands
 
+Generate the secrets, this only needs to be done once for every install. The secrets will be embedded in the talos manifest/config that we will apply using `just talos-apply` later on. So its important to not loose them.
+Thus it is highy recommended to store these in something like bitwarden, which is what I've done.
+
 ```bash
-# save the IP address in your env
-export TALOS_IP=192.168.1.14
+# generate the secrets
+talosctl gen secrets -o secrets.yaml
+# hacky way to store them across multiple `secret-notes` due to their size limit
+cat secrets.yaml | split -b 4000
+# you can stitch them back togeher like
+cat secrets.yaml.pt1 secrets.yaml.pt2 secrets.yaml.pt3 > secrets.yaml
 ```
 
-Find out what disks are avaliable, so we can later set it as our install location.
+
+With that out of the way, lets get Talos running.
+Optionally: edit the variables set in [`Justfile`](./Justfile) to match your setup.
 
 ```bash
-talosctl get disks --nodes http:/$TALOS_IP --insecure
-```
+just talos-init
+# wait for previous step to complete, it may reboot.
+just talos-bootstrap
+# install our manifests
+just talos-apply
+# try and generate a `kubeconfig`
+just kube-config
 
-Generate the talosconfig this will generate both a `controlplane.yaml` and `worker.yaml`. Since I'm just running 1 node, that node will be both the controlplane and the worker.
-In order for this to work you need to set `cluster.allowSchedulingOnControlPlanes: true`.
-
-```bash
-talosctl gen config biglez https://$TALOS_IP:6443/
-```
-
-Make some other changes to the config if You wish to do so, and apply it.
-
-```bash
-talosctl apply-config --nodes http://$TALOS_IP/ --insecure --file talos/controlplane.yaml
-# get the newly acquired configs into our env
+# get the env variables from our `Justfile`
 source set-env.sh
-# setup the k8s server
-talosctl bootstrap
-# generate kubeconfig
-talosctl kubeconfig
-# access it
+# try the kube access
 kubectl get pods -n kube-system
 ```
+
+
 Once you can access the cluster through kluctl, you're done with the talos configuration.
+
+### Storing the secrets
+The `secrets.yaml` is stored in multiple bitwarden secure notes (due to the 10000 chars size limit, per note)
+
+```bash
+cat secrets.yaml.pt1 secrets.yaml.pt2 secrets.yaml.pt3 > secrets.yaml
+```
 
 ### Deploying
 This is really simple, just run.
@@ -147,6 +157,13 @@ kubectl create job --from=cronjob/<cronjob-name> <job-name> -n <namespace-name>
 
 
 ## Notes 'n Thoughts
+
+
+### 2026-05-06
+Started playing around with using `secrets.yaml` to do a local generation of the credentials, also noticed I pushed some secrets in the `controlplane.yaml`. Fucking dumb, so I'm gonna start generating that file instead using the `secrets.yaml`.
+
+Also, the external-secrets manager is still failing, something with its certs?
+
 ### 2026-04-21: Problems :(
 - I've noticed that sometimes (about every hour) one of the [ESO](https://external-secrets.io/) pods has an certificate issue.
 ### Hetzner

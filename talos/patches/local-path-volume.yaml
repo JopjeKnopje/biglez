@@ -1,0 +1,8 @@
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: local-path-provisioner
+provisioning:
+  diskSelector:
+    # grab the only other drive in this system
+    match: "!system_disk"
+  maxSize: 1TB

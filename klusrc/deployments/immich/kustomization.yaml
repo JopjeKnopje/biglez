@@ -11,5 +11,3 @@ resources:
   - photos-backup-cronjob.yaml
   - external-secret.yaml
 
-components:
-  - ../../components/podsecurity/
