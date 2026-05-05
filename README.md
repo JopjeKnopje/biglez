@@ -167,9 +167,12 @@ Summary: I'm already saving `~100EUR` this year by running it myself.
 
 
 ## TODO
+- [ ] LAN Certificate authority
+- [ ] Think about running 2 gateways, one for external requests and the otherone for internal. That way we can easily seperate the HTTPRoutes
+- [ ] Fix pihole smoke-test failing
 - [ ] light file server for desktop backups
 - [ ] somekind of SSO for all the services I might like to add in the future
-- [ ] pi-hole?
+- [x] pi-hole?
 - [ ] Add healthcheck.io and markdown badge
 - [ ] Fix security warnings when deploying pods
 - [ ] Job which initializes the restic repo on the hetzner remote
@@ -182,6 +185,26 @@ Summary: I'm already saving `~100EUR` this year by running it myself.
 
 
 ## Notes 'n Thoughts
+### 2026-05-10: Setup pihole
+```bash
+# add the chart
+helm repo add mojo2600 https://mojo2600.github.io/pihole-kubernetes/
+# get the values and set them
+helm show values mojo2600/pihole > helm-render/values.yaml
+# render the template
+helm template mojo2600/pihole -f helm-render/values > install.yaml
+
+```
+Remove all the lines `` and `-`, using [grug-far.nvim](https://github.com/MagicDuck/grug-far.nvim)
+
+After that, apply them using kustomize.
+
+I took a break when setting up the HTTPRoutes, which proved to be annoying.
+
+Update: Fixed the routes, also figured out how to set it up using a configmap :)
+
+[pihole - envvars](https://docs.pi-hole.net/ftldns/configfile/)
+
 
 ### 2026-05-08: Cert manager errors
 
@@ -295,3 +318,4 @@ talosctl upgrade --image factory.talos.dev/metal-installer/613e1592b2da41ae5e265
 
 ## Credits / Resources
 - [immich certs - reddit](https://old.reddit.com/r/kubernetes/comments/1maptgy/anyone_using_externalsecrets_and_bitwarden/n5gm6or/)
+- [pihole - envvars](https://docs.pi-hole.net/ftldns/configfile/)

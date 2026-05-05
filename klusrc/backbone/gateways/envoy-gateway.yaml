@@ -19,6 +19,7 @@ spec:
           selector:
             matchLabels:
               gateway-certmanager: allowed
+
     - name: thuis-joppeboeve-nl
       hostname: thuis.joppeboeve.nl
       port: 443
@@ -28,7 +29,7 @@ spec:
           from: Selector
           selector:
             matchLabels:
-              name: nginx-test
+              gateway-namespace-ref: nginx-test
       tls:
         mode: Terminate
         certificateRefs:
@@ -42,15 +43,39 @@ spec:
           from: Selector
           selector:
             matchLabels:
-              name: httproute-immich
+              gateway-namespace-ref: immich
       tls:
         mode: Terminate
         certificateRefs:
           - name: "cert-auth-immich-joppeboeve-nl"
+
     - name: lan
       hostname: 192.168.1.14
       port: 80
       protocol: HTTP
       allowedRoutes:
         namespaces:
-          from: All
+          from: Selector
+          selector:
+            matchLabels:
+              gateway-namespace-ref: pihole
+
+    - name: pihole-tcp
+      port: 53
+      protocol: TCP
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              gateway-namespace-ref: pihole
+
+    - name: pihole-udp
+      port: 53
+      protocol: UDP
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              gateway-namespace-ref: pihole

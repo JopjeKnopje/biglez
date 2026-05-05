@@ -1,0 +1,9 @@
+# https://docs.pi-hole.net/ftldns/configfile/
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pihole-env
+data:
+  FTLCONF_dns_piholePTR: "192.168.1.14"
+  FTLCONF_dns_hosts: |-
+    192.168.1.231 test123.nl

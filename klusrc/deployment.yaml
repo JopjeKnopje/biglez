@@ -19,8 +19,10 @@ deployments:
     waitReadiness: true
   - path: deployments/immich
     waitReadiness: true
-  # - path: deployments/pihole
-  #   waitReadiness: true
+  - path: deployments/pihole
+    waitReadiness: true
 
   - path: components/podsecurity
+    onlyRender: true
+  - path: components/remove-helm-hooks
     onlyRender: true
