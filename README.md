@@ -167,6 +167,10 @@ Super simple, yet quite annoying :)
 
 
 ## TODO
+- [ ] light file server for desktop backups
+- [ ] somekind of SSO for all the services I might like to add in the future
+- [ ] pi-hole?
+- [ ] Add healthcheck.io and markdown badge
 - [ ] Fix security warnings when deploying pods
 - [x] Setup ESO
 - [x] Setup ESO With reloader, to automagicaclly update secrets when they've changed in bitwarden.
