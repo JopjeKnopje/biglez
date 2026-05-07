@@ -272,3 +272,6 @@ Installed kernel modules
 ```bash
 talosctl upgrade --image factory.talos.dev/metal-installer/613e1592b2da41ae5e265e8789429f22e121aab91cb4deb6bc3c0b6262961245:v1.12.6
 ```
+
+## Credits / Resources
+- [immich certs - reddit](https://old.reddit.com/r/kubernetes/comments/1maptgy/anyone_using_externalsecrets_and_bitwarden/n5gm6or/)
