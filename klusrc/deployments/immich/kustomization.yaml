@@ -5,9 +5,8 @@ resources:
   - namespace.yaml
   - cloudnative-pg.yaml
   - pvc.yaml
+  - external-secret.yaml
   - immich-config.yaml
   - helm-render/install.yaml
   - httproute.yaml
   - photos-backup-cronjob.yaml
-  - external-secret.yaml
-

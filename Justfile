@@ -36,9 +36,8 @@ talos-init: _talos-gen-manifest
     rm controlplane-generated.yaml
 
 # bootstrap kube cluster, this should be ran after `talos-init`
-talos-bootstrap:
+talos-bootstrap: talos-config
 	talosctl bootstrap --talosconfig={{TALOSCONFIG}}
-
 
 talos-apply: talos-config _talos-gen-manifest
     talosctl --context {{CLUSTER_NAME}} apply-config --file {{GENERATED_MANIFEST}} --talosconfig={{TALOSCONFIG}}
@@ -48,4 +47,4 @@ kube-config: talos-config
 	talosctl kubeconfig -n {{NODE_IP}} --talosconfig={{TALOSCONFIG}} {{KUBECONFIG}}
 
 kluctl-deploy:
-	kluctl deploy --prune --replace-on-error
+	kluctl deploy --prune --replace-on-error --kubeconfig={{KUBECONFIG}}

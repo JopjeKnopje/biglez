@@ -75,6 +75,6 @@ spec:
             - name: data
               persistentVolumeClaim:
                 claimName: immich-user-data # Your PVC you want to backup
-  schedule: 0 02 * * *
+  schedule: 30 02 * * *
   successfulJobsHistoryLimit: 3
   suspend: false

@@ -9,8 +9,8 @@ deployments:
     waitReadiness: true
   - path: backbone/cloudnative-pg
     waitReadiness: true
-  - path: backbone/external-snapshotter
-    waitReadiness: true
+  # - path: backbone/external-snapshotter
+  #   waitReadiness: true
   - path: backbone/external-secrets
     waitReadiness: true
   - path: backbone/reloader

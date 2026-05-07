@@ -1,7 +1,8 @@
 bitwarden-sdk-server:
   enabled: true
-installCRDs: false
 webhook:
+  create: true
+  lookaheadInterval: 48h
   certManager:
     enabled: true
     addInjectorAnnotations: true
@@ -11,3 +12,5 @@ webhook:
         group: cert-manager.io
         kind: Issuer
         name: eso-webhook-ca-issuer
+      duration: "168h"
+      renewBefore: "72h"

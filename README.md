@@ -36,12 +36,13 @@ Required tools
 - [talosctl](https://docs.siderolabs.com/talos/v1.10/getting-started/talosctl#alternative-install) for interacting with the OS running on the server.
 - [kluctl](https://kluctl.io/docs/kluctl/installation/#installation-with-bash) doing deployments.
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-kubectl-binary-with-curl-on-linux) talking to the kubernetes API.
+- [CloudNativePG kubectl-plugin](https://cloudnative-pg.io/documentation/1.20/kubectl-plugin/) Accessing the cnpg databases, without fiddling around in a psql pod.
 
 Handy stuff
 - [k9s](https://github.com/derailed/k9s/releases/tag/v0.50.18) very nice TUI alternative for kluctl.
 - [just](https://github.com/casey/just) simple command runner, used for running the kluctl deployments.
 
-## Installation
+## Talos Installation
 
 I installed talos through a bootable [Ventoy](https://www.ventoy.net/en/download.html) USB stick. Take note if its IP address in the dashboard view (the main screen you see when its running).
 
@@ -63,6 +64,7 @@ cat secrets.yaml.pt1 secrets.yaml.pt2 secrets.yaml.pt3 > secrets.yaml
 
 
 With that out of the way, lets get Talos running.
+
 Optionally: edit the variables set in [`Justfile`](./Justfile) to match your setup.
 
 ```bash
@@ -74,12 +76,11 @@ just talos-apply
 # try and generate a `kubeconfig`
 just kube-config
 
-# get the env variables from our `Justfile`
+# get the env variables from the `Justfile`
 source set-env.sh
 # try the kube access
 kubectl get pods -n kube-system
 ```
-
 
 Once you can access the cluster through kluctl, you're done with the talos configuration.
 
@@ -90,22 +91,17 @@ The `secrets.yaml` is stored in multiple bitwarden secure notes (due to the 1000
 cat secrets.yaml.pt1 secrets.yaml.pt2 secrets.yaml.pt3 > secrets.yaml
 ```
 
-### Deploying
+## Deploying to kubernetes
+Before running kluctl to deploy we have to prepare some things,
 This is really simple, just run.
+
+
 ```
 just kluctl-deploy
 ```
 
 When deploying for the first time, make sure to checkout the [initial cluster setup](#initial-cluster-setup) instructions.
 
-
-
-## Handy commands
-```bash
-# same view as the one being output on the display output
-talosctl dashboard
-talosctl services
-```
 
 
 ## Initial cluster setup
@@ -120,13 +116,13 @@ restic -r $RESTIC_REPOSITORY init
 > The `RESTIC_REPOSITORY` is set in a secret.
 
 
-### External Secrets Bitwarden setup
+### ESO Bitwarden setup
 I created a "machine account" in Bitwarden Secrets Manager, I used the [Free tier](https://bitwarden.com/products/secrets-manager/#pricing). It allows you to have up to 3 machine-accounts and 3 projects, so its plenty for the home gamer.
 
 The bitwarden access token is not being version controlled (for obvious reasons 🤓), you can create the secret with the following command instead.
 
 ```bash
-kubectl create secret generic bitwarden-access-token --from-literal=token=$BW_ACCESS_TOKEN -n <NAMESPACE>
+kubectl create secret generic bitwarden-access-token --from-literal=token=$BW_ACCESS_TOKEN -n external-secrets
 ```
 
 
@@ -147,6 +143,29 @@ Manually fire a cronjob
 kubectl create job --from=cronjob/<cronjob-name> <job-name> -n <namespace-name>
 ```
 
+### Immich restore
+This is a semi manual process for now, since I've only done it once.
+It involves two steps:
+- Downloading the snapshot data down from the hetzner server using restic.
+- Restoring the immich database, through the immich web-ui (I suppose you could also script this but this seems easier)
+#### Restic restore
+1. Manually disable the active immich deployment in [`kustomization.yaml`](kluctl/deployments/immich/kustomization.yaml) by commenting it out. This will ensure that there is no funny business going when writing to the PVC.
+1. Create a pod attached to the `immich-user-data` PVC so we can write to it.
+3. Start the [`restic-pvc-write.yaml`](utils/restic-pvc-write.yaml) pod, get a shell into it.
+4. List the snapshots on the server, `restic snapshots` pick one and run `restic restore <SNAPSHOT-ID|latest> --target /home/photos`. Let it rip, upon completion your data should be downloaded onto the PVC
+5. Re-deploy the immich stuff again, and you should now get prompted for a database backup.
+
+Database backup, this is a shitty process because immich wants to have superuser permissions when restoring the DB. This is because it creates some extenions? I haven't read too much into this, but here is a workaround.
+
+
+#### Database restore
+1. Grant our immich user superuser access. `kubectl cnpg -n immich psql immich-database -- app -c "alter user app with superuser;"`
+2. Do the database backup through the immich web-ui
+3. Revoke the permission `kubectl cnpg -n immich psql immich-database -- app -c "alter user app with nosuperuser;"`.
+Super simple, yet quite annoying :)
+
+
+
 ## TODO
 - [ ] Fix security warnings when deploying pods
 - [x] Setup ESO
@@ -157,6 +176,24 @@ kubectl create job --from=cronjob/<cronjob-name> <job-name> -n <namespace-name>
 
 
 ## Notes 'n Thoughts
+
+### 2026-05-07: Fix stuff fr
+
+Installed ESO like [here](https://github.com/external-secrets/bitwarden-sdk-server#install)
+`bitwarden-sdk-server` is currently waiting for the `bitwarden-tls-certs` secrets.
+
+
+kubectl apply -f bitwarden-sdk-server/hack/cluster_issuer.yaml
+kubectl apply -f bitwarden-sdk-server/hack/bitwarden-certificate.yaml -n external-secrets
+
+
+
+#### Keys &Certs
+- CA.key, private key
+- CA.cert, self signed CA Certificate, signed with the private key.
+- bitwarden-sdk-server.key, private key for bitwarden-sdk
+- bitwarden-sdk-server.csr, certificate-signing-request, signed with the servers (bitwarden-sdk) private key.
+- bitwarden-sdk-server.crt, signed (by the CA) certificate get produced from the `bitwarden-sdk-server.csr`, `CA.key` and the `CA.cert`.
 
 
 ### 2026-05-06

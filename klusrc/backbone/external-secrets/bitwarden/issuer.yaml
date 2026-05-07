@@ -1,22 +1,17 @@
+# Base self signed issuer for the bootstrap certificate
 apiVersion: cert-manager.io/v1
-kind: Certificate
+kind: ClusterIssuer
 metadata:
-  name: bitwarden-tls-certs
-  namespace: default
+  name: bitwarden-bootstrap-issuer
 spec:
-  secretName: bitwarden-tls-certs
-  dnsNames:
-    - bitwarden-sdk-server.default.svc.cluster.local
-    - external-secrets-bitwarden-sdk-server.default.svc.cluster.local
-    - localhost
-  ipAddresses:
-    - 127.0.0.1
-    - ::1
-  privateKey:
-    algorithm: RSA
-    encoding: PKCS8
-    size: 2048
-  issuerRef:
-    name: bitwarden-certificate-issuer
-    kind: ClusterIssuer
-    group: cert-manager.io
+  selfSigned: {}
+---
+# ClusterIssuer for Bitwarden using the self-signed certificate
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: bitwarden-certificate-issuer
+spec:
+  ca:
+    secretName: bitwarden-bootstrap-certs
+---
