@@ -10,24 +10,10 @@ _• Kubernetes on Talos Linux •_
 This repo contains the configuration for my homecluster running on a *Dell OptiPlex 7050 Micro*, which is a pretty  efficient machine. It consumes about `18w` while idling the currently deployed workloads, with my current energy contract that be around `~50EUR` a year.
 The main focus of this setup is to have the cluster _Infrastructure as Code_, which makes it easy to "record" the state of the cluster in git.
 
-Its currently just hosting a dead simple [immich](https://immich.app/) instance, with a Hetzner [Storage Box](https://www.hetzner.com/storage/storage-box/) for backups.
+Its currently just hosting a [immich](https://immich.app/) instance, with a Hetzner [Storage Box](https://www.hetzner.com/storage/storage-box/) for backups.
 For secret management I'm running [External Secrets Operator](https://external-secrets.io/latest/) hooked up to the Free Tier of [Bitwarden Secret Manager](https://bitwarden.com/help/secrets-manager-plans/) paired with [Reloader](https://docs.stakater.com/reloader/latest/)
 This setup is large based on the [launchpad023](https://codeberg.org/launchpad023/launchpad023-infra/) config which is a nice example of how to set things up.
 <br/>
-
-## Cost savings
-More about the costs of running this thing.
-For the server's power consumption I assumed a `20h` period of idling and `4h` of max CPU usage (for example when running the immich ML pods)
-The yearly costs of running just the server would be the previously mentioned `~50EUR`.
-
-For calculating the server's power consumption I assumed a `20h` period of idling and `4h` of max CPU usage (for example when running the immich ML pods)
-Taking those numbers into account the yearly costs of running just the server would be the previously mentioned `~50EUR`.
-
-The Hetzner Storage bucket adds an extra `46.44EUR`, so lets say about `100EUR` a year.
-Previously I was using a Hetzner [Nextcloud](https://www.hetzner.com/storage/storage-share/) instance which is absolutely dogshit for hosting photos btw. As an added bonus it also cost `206EUR` a year 🤡🤡🤡
-
-
-Summary: I'm already saving `~100EUR` this year by running it myself.
 
 
 
@@ -105,16 +91,6 @@ When deploying for the first time, make sure to checkout the [initial cluster se
 
 
 ## Initial cluster setup
-### Restic backup
-I don't have a job setup to initialize the restic repo yet, so for now that's gotta happen manaually.
-
-```bash
-restic -r $RESTIC_REPOSITORY init
-```
-
-> [!NOTE]
-> The `RESTIC_REPOSITORY` is set in a secret.
-
 
 ### ESO Bitwarden setup
 I created a "machine account" in Bitwarden Secrets Manager, I used the [Free tier](https://bitwarden.com/products/secrets-manager/#pricing). It allows you to have up to 3 machine-accounts and 3 projects, so its plenty for the home gamer.
@@ -124,6 +100,19 @@ The bitwarden access token is not being version controlled (for obvious reasons 
 ```bash
 kubectl create secret generic bitwarden-access-token --from-literal=token=$BW_ACCESS_TOKEN -n external-secrets
 ```
+
+### Initialite restic
+I don't have a job setup to initialize the restic repo yet, so for now that's gotta happen manaually.
+Initialize the remote restic repo.
+
+```bash
+restic -r $RESTIC_REPOSITORY init
+```
+
+> [!NOTE]
+> The `RESTIC_REPOSITORY` is set in a secret.
+
+
 
 
 
@@ -165,6 +154,21 @@ Database backup, this is a shitty process because immich wants to have superuser
 Super simple, yet quite annoying :)
 
 
+## Cost savings
+More about the costs of running this thing.
+For the server's power consumption I assumed a `20h` period of idling and `4h` of max CPU usage (for example when running the immich ML pods)
+The yearly costs of running just the server would be the previously mentioned `~50EUR`.
+
+For calculating the server's power consumption I assumed a `20h` period of idling and `4h` of max CPU usage (for example when running the immich ML pods)
+Taking those numbers into account the yearly costs of running just the server would be the previously mentioned `~50EUR`.
+
+The Hetzner Storage bucket adds an extra `46.44EUR`, so lets say about `100EUR` a year.
+Previously I was using a Hetzner [Nextcloud](https://www.hetzner.com/storage/storage-share/) instance which is absolutely dogshit for hosting photos btw. As an added bonus it also cost `206EUR` a year 🤡🤡🤡
+
+
+Summary: I'm already saving `~100EUR` this year by running it myself.
+
+
 
 ## TODO
 - [ ] light file server for desktop backups
@@ -172,11 +176,13 @@ Super simple, yet quite annoying :)
 - [ ] pi-hole?
 - [ ] Add healthcheck.io and markdown badge
 - [ ] Fix security warnings when deploying pods
+- [ ] Job which initializes the restic repo on the hetzner remote
 - [x] Setup ESO
 - [x] Setup ESO With reloader, to automagicaclly update secrets when they've changed in bitwarden.
 - [ ] Add some kind of variable system, so I can (for example) set the namespace in the generated helm render from external-secrets. Instead of having to run `helm template ..... -n <namespace>` when this namespace is already set in the `kustomization.yaml`
 - [x] ~Go through git history and purge any published secrets~ rotate all secrets instead.
 
+---
 
 
 ## Notes 'n Thoughts
