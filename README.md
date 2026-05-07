@@ -93,28 +93,34 @@ When deploying for the first time, make sure to checkout the [initial cluster se
 ## Initial cluster setup
 
 ### ESO Bitwarden setup
-I created a "machine account" in Bitwarden Secrets Manager, I used the [Free tier](https://bitwarden.com/products/secrets-manager/#pricing). It allows you to have up to 3 machine-accounts and 3 projects, so its plenty for the home gamer.
-
+I created a `machine account` in Bitwarden Secrets Manager. 
 The bitwarden access token is not being version controlled (for obvious reasons 🤓), you can create the secret with the following command instead.
 
 ```bash
 kubectl create secret generic bitwarden-access-token --from-literal=token=$BW_ACCESS_TOKEN -n external-secrets
 ```
 
-### Initialite restic
-I don't have a job setup to initialize the restic repo yet, so for now that's gotta happen manaually.
-Initialize the remote restic repo.
+### Immich restore
+When setting up the cluster, you may want to restore a previously made backup of the immich data.
+<br>
+This is a semi manual process for now, since I've only done it once.
+It involves two steps:
+- Downloading the snapshot data down from the hetzner server using restic.
+- Restoring the immich database, through the immich web-ui (I suppose you could also script this but this seems easier)
+#### Restic restore
+1. Manually disable the active immich deployment in [`kustomization.yaml`](kluctl/deployments/immich/kustomization.yaml) by commenting it out. This will ensure that there is no funny business going when writing to the PVC.
+1. Create a pod attached to the `immich-user-data` PVC so we can write to it.
+3. Start the [`restic-pvc-write.yaml`](utils/restic-pvc-write.yaml) pod, get a shell into it.
+4. List the snapshots on the server, `restic snapshots` pick one and run `restic restore <SNAPSHOT-ID|latest> --target /home/photos`. Let it rip, upon completion your data should be downloaded onto the PVC
+5. Re-deploy the immich stuff again, and you should now get prompted for a database backup.
 
-```bash
-restic -r $RESTIC_REPOSITORY init
-```
+Database backup, this is a shitty process because immich wants to have superuser permissions when restoring the DB. This is because it creates some extenions? I haven't read too much into this, but here is a workaround.
 
-> [!NOTE]
-> The `RESTIC_REPOSITORY` is set in a secret.
-
-
-
-
+#### Database restore
+1. Grant our immich user superuser access. `kubectl cnpg -n immich psql immich-database -- app -c "alter user app with superuser;"`
+2. Do the database backup through the immich web-ui
+3. Revoke the permission `kubectl cnpg -n immich psql immich-database -- app -c "alter user app with nosuperuser;"`.
+Super simple, yet quite annoying :)
 
 
 ## Handy commands
@@ -132,26 +138,6 @@ Manually fire a cronjob
 kubectl create job --from=cronjob/<cronjob-name> <job-name> -n <namespace-name>
 ```
 
-### Immich restore
-This is a semi manual process for now, since I've only done it once.
-It involves two steps:
-- Downloading the snapshot data down from the hetzner server using restic.
-- Restoring the immich database, through the immich web-ui (I suppose you could also script this but this seems easier)
-#### Restic restore
-1. Manually disable the active immich deployment in [`kustomization.yaml`](kluctl/deployments/immich/kustomization.yaml) by commenting it out. This will ensure that there is no funny business going when writing to the PVC.
-1. Create a pod attached to the `immich-user-data` PVC so we can write to it.
-3. Start the [`restic-pvc-write.yaml`](utils/restic-pvc-write.yaml) pod, get a shell into it.
-4. List the snapshots on the server, `restic snapshots` pick one and run `restic restore <SNAPSHOT-ID|latest> --target /home/photos`. Let it rip, upon completion your data should be downloaded onto the PVC
-5. Re-deploy the immich stuff again, and you should now get prompted for a database backup.
-
-Database backup, this is a shitty process because immich wants to have superuser permissions when restoring the DB. This is because it creates some extenions? I haven't read too much into this, but here is a workaround.
-
-
-#### Database restore
-1. Grant our immich user superuser access. `kubectl cnpg -n immich psql immich-database -- app -c "alter user app with superuser;"`
-2. Do the database backup through the immich web-ui
-3. Revoke the permission `kubectl cnpg -n immich psql immich-database -- app -c "alter user app with nosuperuser;"`.
-Super simple, yet quite annoying :)
 
 
 ## Cost savings
