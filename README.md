@@ -1,8 +1,17 @@
 <div align=center>
 <img width="175" height="175" alt="image" src="https://github.com/user-attachments/assets/baa7041e-549d-45b0-ae5f-0b444abaaebb" />
 
-# Biglez Cluster
-_• Kubernetes on Talos Linux •_
+
+## Biglez Cluster <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2728/512.gif" alt="🚀" width="16" height="16">
+_• deployed via [kluctl](https://kluctl.io/) on Talos Linux •_
+
+ <p align="center">
+  <a href="#installation">Installation</a> ·
+  <a href="#handy-commands">Handy commands</a> ·
+  <a href="#todo">Todo</a>
+</p>
+
+
 <br />
 </div>
 
@@ -28,7 +37,7 @@ Handy stuff
 - [k9s](https://github.com/derailed/k9s/releases/tag/v0.50.18) very nice TUI alternative for kluctl.
 - [just](https://github.com/casey/just) simple command runner, used for running the kluctl deployments.
 
-## Talos Installation
+## Installation
 
 I installed talos through a bootable [Ventoy](https://www.ventoy.net/en/download.html) USB stick. Take note if its IP address in the dashboard view (the main screen you see when its running).
 
