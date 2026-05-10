@@ -5,8 +5,16 @@ metadata:
   annotations:
     cert-manager.io/issuer: envoy
 spec:
+# The implementation MUST bind all Listeners to every GatewayAddress that
+# it assigns to the Gateway and add a corresponding entry in
+# GatewayStatus.Addresses.
   addresses:
     - value: 192.168.1.14
+      type: IPAddress
+    - value: 192.168.1.15
+      type: IPAddress
+    - value: 192.168.1.16
+      type: IPAddress
   gatewayClassName: envoy
   listeners:
     - name: http
@@ -50,7 +58,7 @@ spec:
           - name: "cert-auth-immich-joppeboeve-nl"
 
     - name: lan
-      hostname: 192.168.1.14
+      hostname: 192.168.1.15
       port: 80
       protocol: HTTP
       allowedRoutes:
