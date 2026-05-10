@@ -193,7 +193,7 @@ helm show values mojo2600/pihole > helm-render/values.yaml
 helm template mojo2600/pihole -f helm-render/values > install.yaml
 
 ```
-Remove all the lines `release-name` and `release-name-`, using [grug-far.nvim](https://github.com/MagicDuck/grug-far.nvim)
+Remove all the lines `` and `-`, using [grug-far.nvim](https://github.com/MagicDuck/grug-far.nvim)
 
 After that, apply them using kustomize
 

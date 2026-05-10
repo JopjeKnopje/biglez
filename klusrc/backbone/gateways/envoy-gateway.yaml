@@ -9,48 +9,68 @@ spec:
     - value: 192.168.1.14
   gatewayClassName: envoy
   listeners:
-    - name: http
-      protocol: HTTP
-      # Used for cert-manager and HTTP->HTTPs redirects for all hosts
-      port: 80
-      allowedRoutes:
-        namespaces:
-          from: Selector
-          selector:
-            matchLabels:
-              gateway-certmanager: allowed
-    - name: thuis-joppeboeve-nl
-      hostname: thuis.joppeboeve.nl
-      port: 443
-      protocol: HTTPS
-      allowedRoutes:
-        namespaces:
-          from: Selector
-          selector:
-            matchLabels:
-              name: nginx-test
-      tls:
-        mode: Terminate
-        certificateRefs:
-          - name: "cert-auth-thuis-joppeboeve-nl"
-    - name: immich-joppeboeve-nl
-      hostname: immich.joppeboeve.nl
-      port: 443
-      protocol: HTTPS
-      allowedRoutes:
-        namespaces:
-          from: Selector
-          selector:
-            matchLabels:
-              name: httproute-immich
-      tls:
-        mode: Terminate
-        certificateRefs:
-          - name: "cert-auth-immich-joppeboeve-nl"
+    # - name: http
+    #   protocol: HTTP
+    #   # Used for cert-manager and HTTP->HTTPs redirects for all hosts
+    #   port: 80
+    #   allowedRoutes:
+    #     namespaces:
+    #       from: Selector
+    #       selector:
+    #         matchLabels:
+    #           gateway-certmanager: allowed
+    #
+    # - name: thuis-joppeboeve-nl
+    #   hostname: thuis.joppeboeve.nl
+    #   port: 443
+    #   protocol: HTTPS
+    #   allowedRoutes:
+    #     namespaces:
+    #       from: Selector
+    #       selector:
+    #         matchLabels:
+    #           name: nginx-test
+    #   tls:
+    #     mode: Terminate
+    #     certificateRefs:
+    #       - name: "cert-auth-thuis-joppeboeve-nl"
+    # - name: immich-joppeboeve-nl
+    #   hostname: immich.joppeboeve.nl
+    #   port: 443
+    #   protocol: HTTPS
+    #   allowedRoutes:
+    #     namespaces:
+    #       from: Selector
+    #       selector:
+    #         matchLabels:
+    #           name: httproute-immich
+    #   tls:
+    #     mode: Terminate
+    #     certificateRefs:
+    #       - name: "cert-auth-immich-joppeboeve-nl"
+
     - name: lan
       hostname: 192.168.1.14
       port: 80
       protocol: HTTP
       allowedRoutes:
         namespaces:
-          from: All
+          from: Selector
+          selector:
+            matchLabels:
+              gateway-namespace-name: pihole
+
+    # - name: pihole-http
+    #   port: 443
+    #   protocol: HTTPS
+    #   allowedRoutes:
+    #     namespaces:
+    #       from: Selector
+    #       selector:
+    #         matchLabels:
+    #           # TODO: Use this for the other namespaces as well
+    #           gateway-namespace-name: pihole
+    #   tls:
+    #     mode: Terminate
+    #     certificateRefs:
+    #       - name: "cert-pihole"
