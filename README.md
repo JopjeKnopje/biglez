@@ -26,6 +26,7 @@ This setup is large based on the [launchpad023](https://codeberg.org/launchpad02
 
 
 
+
 ## Depenencies
 Required tools
 - [talosctl](https://docs.siderolabs.com/talos/v1.10/getting-started/talosctl#alternative-install) for interacting with the OS running on the server.
@@ -102,7 +103,7 @@ When deploying for the first time, make sure to checkout the [initial cluster se
 ## Initial cluster setup
 
 ### ESO Bitwarden setup
-I created a `machine account` in Bitwarden Secrets Manager. 
+I created a `machine account` in Bitwarden Secrets Manager.
 The bitwarden access token is not being version controlled (for obvious reasons 🤓), you can create the secret with the following command instead.
 
 ```bash
@@ -182,6 +183,19 @@ Summary: I'm already saving `~100EUR` this year by running it myself.
 
 ## Notes 'n Thoughts
 
+### 2026-05-08: Cert manager errors
+
+Everything is still working fine, its jump complaining about the bootstrap cert.
+Immich is stil running and ESO can also still get secrets from bitwarden.
+
+
+```
+E0508 20:44:51.731841       1 setup.go:50] "error getting signing CA TLS certificate" err="secrets \"bitwarden-bootstrap-certs\" not found" logger="cert-manager.controller.setup" resource_name="bitwarden-certificate-issuer" resource_namespace="" resource_kind="ClusterIssuer" resource_version="v1"
+E0508 20:44:51.732230       1 sync.go:62] "error setting up issuer" err="secrets \"bitwarden-bootstrap-certs\" not found" logger="cert-manager.controller" resource_name="bitwarden-certificate-issuer" resource_namespace="" resource_kind="ClusterIssuer" resource_version="v1"
+E0508 20:44:51.735440       1 controller.go:157] "re-queuing item due to error processing" err="secrets \"bitwarden-bootstrap-certs\" not found" logger="cert-manager.controller"
+
+```
+
 ### 2026-05-07: Fix stuff fr
 
 Installed ESO like [here](https://github.com/external-secrets/bitwarden-sdk-server#install)
@@ -215,6 +229,7 @@ It seems to be a LAN issue, when I use my mobile hot spot the uptime seems to be
 
 #### Dig
 When running dig I noticed the TTL was 30 seconds, my current theory is that my router has a setting regarding that.
+
 
 
 ### 2026-04-23: Hetzner
