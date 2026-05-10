@@ -4,4 +4,7 @@ persistentVolumeClaim:
   enabled: true
   size: "500Mi"
   storageClass: "local-path"
-
+admin:
+  enabled: true
+  existingSecret: "pihole-password"
+  passwordKey: "password"

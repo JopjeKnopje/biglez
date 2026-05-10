@@ -5,6 +5,7 @@ namespace: pihole
 resources:
   - namespace.yaml
   - helm-render/install.yaml
+  - external-secret.yaml
 
 components:
   - ../../components/remove-helm-hooks/

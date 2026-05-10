@@ -1,18 +1,4 @@
 ---
-# Source: pihole/templates/secret.yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: pihole-password
-  labels:
-    app: pihole
-    chart: pihole-2.35.0
-    heritage: Helm
-     
-type: Opaque
-data:
-  password: "YWRtaW4="
----
 # Source: pihole/templates/configmap.yaml
 apiVersion: v1
 kind: ConfigMap
