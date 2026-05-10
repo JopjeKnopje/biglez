@@ -21,3 +21,14 @@ patches:
         value: 
           - configMapRef:
               name: pihole-env
+
+  # Add reloader hehe
+    # TODO: Make this a seperate patch file
+  - target:
+      kind: Deployment
+      name: pihole
+    patch: |-
+      - op: add
+        path: /metadata/annotations
+        value:
+          reloader.stakater.com/auto: "true"
