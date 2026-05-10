@@ -3,4 +3,4 @@ kind: Namespace
 metadata:
   name: nginx-test
   labels:
-    name: nginx-test
+    gateway-namespace-name: nginx-test

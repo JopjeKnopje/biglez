@@ -58,7 +58,7 @@ spec:
           from: Selector
           selector:
             matchLabels:
-              gateway-namespace-name: pihole
+              gateway-namespace-name: nginx-test
 
     - name: pihole-tcp
       port: 53
