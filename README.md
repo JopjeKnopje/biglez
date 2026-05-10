@@ -167,6 +167,7 @@ Summary: I'm already saving `~100EUR` this year by running it myself.
 
 
 ## TODO
+- [ ] Fix pihole smoke-test failing
 - [ ] light file server for desktop backups
 - [ ] somekind of SSO for all the services I might like to add in the future
 - [ ] pi-hole?
@@ -182,6 +183,20 @@ Summary: I'm already saving `~100EUR` this year by running it myself.
 
 
 ## Notes 'n Thoughts
+### 2026-05-10: Setup pihole
+```bash
+# add the chart
+helm repo add mojo2600 https://mojo2600.github.io/pihole-kubernetes/
+# get the values and set them
+helm show values mojo2600/pihole > helm-render/values.yaml
+# render the template
+helm template mojo2600/pihole -f helm-render/values > install.yaml
+
+```
+Remove all the lines `release-name` and `release-name-`, using [grug-far.nvim](https://github.com/MagicDuck/grug-far.nvim)
+
+After that, apply them using kustomize
+
 
 ### 2026-05-08: Cert manager errors
 
