@@ -60,17 +60,22 @@ spec:
             matchLabels:
               gateway-namespace-name: pihole
 
-    # Not werking yet
-    - name: pihole-http
-      port: 443
-      protocol: HTTPS
+    - name: pihole-tcp
+      port: 53
+      protocol: TCP
       allowedRoutes:
         namespaces:
           from: Selector
           selector:
             matchLabels:
               gateway-namespace-name: pihole
-      tls:
-        mode: Terminate
-        certificateRefs:
-          - name: "cert-pihole"
+
+    - name: pihole-udp
+      port: 53
+      protocol: UDP
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              gateway-namespace-name: pihole

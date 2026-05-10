@@ -7,8 +7,6 @@ metadata:
   labels:
     app: pihole
     chart: pihole-2.35.0
-     
-    heritage: Helm
 data:
   02-custom.conf: |
     addn-hosts=/etc/addn-hosts
@@ -17,15 +15,12 @@ data:
   05-pihole-custom-cname.conf: |
 ---
 # Source: pihole/templates/volume-claim.yaml
-apiVersion: "v1"
-kind: "PersistentVolumeClaim"
+apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   labels:
     app: pihole
     chart: pihole-2.35.0
-    component: ""
-    heritage: Helm
-     
   name: pihole
 spec:
   accessModes:
@@ -33,30 +28,7 @@ spec:
   storageClassName: "local-path"
   resources:
     requests:
-      storage: "500Mi"
----
-# Source: pihole/templates/service-dhcp.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: pihole-dhcp
-  labels:
-    app: pihole
-    app.kubernetes.io/name: pihole
-    chart: pihole-2.35.0
-     
-    heritage: Helm
-spec:
-  type: NodePort
-  externalTrafficPolicy: Local
-  ports:
-    - port: 67
-      targetPort: client-udp
-      protocol: UDP
-      name: client-udp
-  selector:
-    app: pihole
-     
+      storage: "1G"
 ---
 # Source: pihole/templates/service-dns-tcp.yaml
 apiVersion: v1
@@ -67,12 +39,9 @@ metadata:
     app: pihole
     app.kubernetes.io/name: pihole
     chart: pihole-2.35.0
-     
-    heritage: Helm
 spec:
-  type: NodePort
+  type: ClusterIP
   loadBalancerIP: 192.168.1.14
-  externalTrafficPolicy: Local
   ports:
     - port: 53
       targetPort: dns
@@ -91,12 +60,9 @@ metadata:
     app: pihole
     app.kubernetes.io/name: pihole
     chart: pihole-2.35.0
-     
-    heritage: Helm
 spec:
-  type: NodePort
+  type: ClusterIP
   loadBalancerIP: 192.168.1.14
-  externalTrafficPolicy: Local
   ports:
     - port: 53
       targetPort: dns-udp
@@ -116,7 +82,7 @@ metadata:
     app.kubernetes.io/name: pihole
     chart: pihole-2.35.0
      
-    heritage: Helm
+    
 spec:
   type: ClusterIP
   ports:
@@ -141,8 +107,6 @@ metadata:
     app: pihole
     app.kubernetes.io/name: pihole
     chart: pihole-2.35.0
-     
-    heritage: Helm
 spec:
   replicas: 1
   revisionHistoryLimit: 10
@@ -154,7 +118,6 @@ spec:
   selector:
     matchLabels:
       app: pihole
-       
   template:
     metadata:
       annotations:
@@ -253,19 +216,3 @@ spec:
           defaultMode: 420
           name: pihole-custom-dnsmasq
         name: custom-dnsmasq
----
-# Source: pihole/templates/tests/test-pihole-endpoint.yml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: "smoke-test"
-  annotations:
-    "helm.sh/hook": test
-spec:
-  containers:
-  - name: hook1-container
-    image: curlimages/curl
-    imagePullPolicy: IfNotPresent
-    command: ['sh', '-c', 'curl http://pihole-web:80/']
-  restartPolicy: Never
-  terminationGracePeriodSeconds: 0

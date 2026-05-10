@@ -195,7 +195,10 @@ helm template mojo2600/pihole -f helm-render/values > install.yaml
 ```
 Remove all the lines `` and `-`, using [grug-far.nvim](https://github.com/MagicDuck/grug-far.nvim)
 
-After that, apply them using kustomize
+After that, apply them using kustomize.
+
+I took a break when setting up the HTTPRoutes, which proved to be annoying.
+
 
 
 ### 2026-05-08: Cert manager errors
