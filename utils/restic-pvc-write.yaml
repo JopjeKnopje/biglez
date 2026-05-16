@@ -6,7 +6,7 @@ spec:
   containers:
     - name: main
       command: ["/bin/sh"]
-      args: ["-c", "while true; do echo app1:$(date -u) >> /data/test.log; sleep 5; done"]
+      args: ["-c", "while true; sleep 5; done"]
       env:
         - name: RESTIC_PASSWORD # Set the secrets according to
           valueFrom: # your situation

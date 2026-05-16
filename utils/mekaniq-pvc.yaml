@@ -7,11 +7,4 @@ spec:
     - name: main
       image: ghcr.io/jopjeknopje/mekaniq:main
       command: ["/bin/sh"]
-      args: ["-c", "while true; do echo app1:$(date -u) >> /data/test.log; sleep 5; done"]
-      volumeMounts:
-        - mountPath: /home/pvc
-          name: pihole
-  volumes:
-    - name: pihole
-      persistentVolumeClaim:
-        claimName: pihole # Your PVC you want to backup
+      args: ["-c", "while true; sleep 5; done"]
