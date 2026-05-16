@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: immich-photo-backup
+  name: immich-backup
   namespace: immich
   annotations:
     reloader.stakater.com/auto: "true"
@@ -11,7 +11,7 @@ spec:
   jobTemplate:
     metadata:
       creationTimestamp: null
-      name: immich-photo-backup
+      name: immich-backup
       annotations:
         reloader.stakater.com/auto: "true"
     spec:
@@ -20,61 +20,92 @@ spec:
           creationTimestamp: null
         spec:
           containers:
-            - args:
-                - backup
-                - --host
-                - cronjob-pod
-                - /home/photos/ # Match with the mountPath below
-                - -v
+            - command: ["./backup.sh"]
               env:
-                - name: RESTIC_PASSWORD # Set the secrets according to
-                  valueFrom: # your situation
+                - name: RESTIC_PASSWORD
+                  valueFrom:
                     secretKeyRef:
                       key: RESTIC_PASSWORD
+                      name: restic-config
+
+                - name: HEALTHCHECK_ENDPOINT
+                  valueFrom:
+                    secretKeyRef:
+                      key: HEALTHCHECK_ENDPOINT
                       name: restic-config
                 - name: RESTIC_REPOSITORY
                   valueFrom:
                     secretKeyRef:
                       key: RESTIC_REPOSITORY
                       name: restic-config
-              image: restic/restic
+
+                - name: RESTIC_HOST
+                  value: cronjob-pod
+
+                - name: BACKUP_FILE_PATH
+                  value: /home/photos
+
+                - name: RESTIC_CACHE_DIR
+                  value: /home/worker/.restic-cache
+              image: ghcr.io/jopjeknopje/crulstic:main
               imagePullPolicy: Always
               name: immich-backup
               resources: {}
               terminationMessagePath: /dev/termination-log
+              securityContext:
+                runAsUser: 1000
               terminationMessagePolicy: File
               volumeMounts:
-                - mountPath: /root/.ssh/config # For SFTP repo
+                # Mount ssh dir
+                - mountPath: /home/worker/.ssh
+                  name: empty-dir
+                - mountPath: /home/worker/.ssh/config # For SFTP repo
                   name: ssh-config
                   subPath: config
-                - mountPath: /root/.ssh/id_rsa
+                - mountPath: /home/worker/.ssh/id_rsa
                   name: ssh-key
                   subPath: id_rsa
                 - mountPath: /home/photos # Match with command arguments above
                   name: data
+                - mountPath: /home/worker/
+                  name: immich-backup-script
+                - mountPath: /home/worker/.restic-cache
+                  name: restic-cache-dir
           dnsPolicy: ClusterFirst
           restartPolicy: OnFailure
           schedulerName: default-scheduler
           securityContext: {}
           terminationGracePeriodSeconds: 30
           volumes:
-            - name: ssh-config # For SFTP restic repos
+            # Create empty dir to prevent, mounting errors when mounting ssh stuff
+            - name: empty-dir
+              emptyDir: {}
+            - name: restic-cache-dir
+              emptyDir: {}
+
+            - name: ssh-config
               secret:
-                defaultMode: 256
+                defaultMode: 292 # 444
                 items:
                   - key: ssh-config
                     path: config
                 secretName: restic-config
             - name: ssh-key
               secret:
-                defaultMode: 256
+                defaultMode: 292 
                 items:
                   - key: id_rsa
                     path: id_rsa
                 secretName: restic-config
+            - name: immich-backup-script
+              configMap:
+                defaultMode: 293 # 445
+                name: immich-backup-script
+
             - name: data
               persistentVolumeClaim:
-                claimName: immich-user-data # Your PVC you want to backup
+                claimName: immich-user-data 
+
   schedule: 30 02 * * *
   successfulJobsHistoryLimit: 3
   suspend: false

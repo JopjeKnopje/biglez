@@ -48,3 +48,9 @@ kube-config: talos-config
 
 kluctl-deploy:
 	kluctl deploy --prune --replace-on-error --kubeconfig={{KUBECONFIG}}
+
+immich-backup:
+	kubectl create job --from=cronjob/immich-backup immich-backup -n immich
+
+eso-sync name ns:
+	kubectl annotate es {{name}} force-sync=$(date +%s) --overwrite -n {{ns}}

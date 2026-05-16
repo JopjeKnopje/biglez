@@ -10,3 +10,10 @@ resources:
   - helm-render/install.yaml
   - httproute.yaml
   - photos-backup-cronjob.yaml
+
+configMapGenerator:
+  - name: immich-backup-script
+    files:
+    - backup.sh
+    options:
+      disableNameSuffixHash: true
