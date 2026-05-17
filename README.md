@@ -5,6 +5,12 @@
 ## Biglez Cluster <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2728/512.gif" alt="🚀" width="16" height="16">
 _• deployed via [kluctl](https://kluctl.io/) on Talos Linux •_
 
+
+<img alt="immich-badge" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fhealthchecks.io%2Fb%2F2%2F7ab4e1a5-cca2-4176-9bf1-ee1bbfff98cb.shields&style=flat-square&logo=immich&logoColor=white&label=immich%20backup" />
+
+
+
+
  <p align="center">
   <a href="#installation">Installation</a> ·
   <a href="#handy-commands">Handy commands</a> ·
