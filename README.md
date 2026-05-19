@@ -159,6 +159,13 @@ kubectl create job --from=cronjob/<cronjob-name> <job-name> -n <namespace-name>
 ```
 
 
+### Verify renovate config
+You need to install node for this one... 🫩
+
+```bash
+npx --yes --package renovate -- renovate-config-validator
+```
+
 
 ## Cost savings
 More about the costs of running this thing.
@@ -195,6 +202,10 @@ Summary: I'm already saving `~100EUR` this year by running it myself.
 
 
 ## Notes 'n Thoughts
+
+### Renovate install
+
+
 ### 2026-05-10: Setup pihole
 ```bash
 # add the chart
