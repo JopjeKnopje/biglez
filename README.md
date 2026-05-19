@@ -1,7 +1,7 @@
 <div align=center>
 <img width="175" height="175" alt="image" src="https://github.com/user-attachments/assets/baa7041e-549d-45b0-ae5f-0b444abaaebb" />
 
- 
+
 
 ## Biglez Cluster <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2728/512.gif" alt="🚀" width="16" height="16">
 
@@ -183,7 +183,7 @@ Summary: I'm already saving `~100EUR` this year by running it myself.
 - [ ] light file server for desktop backups
 - [ ] somekind of SSO for all the services I might like to add in the future
 - [x] pi-hole?
-- [ ] Add healthcheck.io and markdown badge
+- [x] Add healthcheck.io and markdown badge
 - [ ] Fix security warnings when deploying pods
 - [ ] Job which initializes the restic repo on the hetzner remote
 - [x] Setup ESO
