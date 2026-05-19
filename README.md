@@ -185,6 +185,8 @@ Summary: I'm already saving `~100EUR` this year by running it myself.
 
 ## TODO
 - [ ] LAN Certificate authority
+- [ ] Wireguard setup
+- [ ] Github CI which runs kluctl, this will work nicely together  with renovate.
 - [ ] Think about running 2 gateways, one for external requests and the otherone for internal. That way we can easily seperate the HTTPRoutes
 - [ ] Fix pihole smoke-test failing
 - [ ] light file server for desktop backups
