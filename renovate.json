@@ -4,8 +4,11 @@
     "config:recommended"
   ],
   "kubernetes": {
+    "ignorePaths": [
+      "**/helm-render/**"
+    ],
     "managerFilePatterns": [
-      "klusrc/**/*.yaml$"
+      "/^klusrc/.*\\.yaml$/"
     ]
   }
 }
