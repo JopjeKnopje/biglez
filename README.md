@@ -101,13 +101,17 @@ cat secrets.yaml.pt1 secrets.yaml.pt2 secrets.yaml.pt3 > secrets.yaml
 Before running kluctl to deploy we have to prepare some things,
 This is really simple, just run.
 
-
 ```
 just kluctl-deploy
 ```
 
 When deploying for the first time, make sure to checkout the [initial cluster setup](#initial-cluster-setup) instructions.
 
+
+Getting the environment variables loaded, this is needed for running `kluctl` or `k9s`.
+```bash
+source set-env.sh
+```
 
 
 ## Initial cluster setup
