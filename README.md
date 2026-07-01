@@ -3,7 +3,7 @@
 
 
 
-## Biglez Cluster <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2728/512.gif" alt="🚀" width="16" height="16">
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2728/512.gif" alt="🚀" width="16" height="16"> Biglez Cluster <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2728/512.gif" alt="🚀" width="16" height="16">
 
 
 **• Deployed with [kluctl](https://kluctl.io/) on Talos Linux •**
