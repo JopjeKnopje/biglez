@@ -4,3 +4,12 @@ namespace: metallb-system
 resources:
   - install.yaml
   - config/metallb-config.yaml
+
+patches:
+  - target:
+      group: apps
+      version: v1
+      kind: DaemonSet
+      name: speaker
+      namespace: metallb-system
+    path: patch-fix-speaker-lb.yaml

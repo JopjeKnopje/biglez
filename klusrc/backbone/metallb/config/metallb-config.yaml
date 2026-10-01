@@ -2,11 +2,20 @@
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: ingress-pool
+  name: envoy-gateway
   namespace: metallb-system
 spec:
   addresses:
-    - 192.168.1.14-192.168.1.14 # Range of IPs for ingress
+    - 192.168.1.14/32
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: node-direct
+  namespace: metallb-system
+spec:
+  addresses:
+    - 192.168.1.24/32
 ---
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
@@ -15,4 +24,5 @@ metadata:
   namespace: metallb-system
 spec:
   ipAddressPools:
-    - ingress-pool
+    - envoy-gateway
+    - node-direct
