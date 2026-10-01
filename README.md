@@ -212,6 +212,10 @@ Summary: I'm already saving `~100EUR` this year by running it myself.
 ### Renovate install
 
 
+### 2026-10-01: Setup tailscale
+I followed these steps to generate the RBAC file: https://tailscale.com/docs/kubernetes#prerequisites
+I still have to fix the extgernal secrets certificate errors. and then link it up with bitwarden to store the key
+
 ### 2026-05-10: Setup pihole
 ```bash
 # add the chart

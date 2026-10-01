@@ -19,6 +19,8 @@ deployments:
     waitReadiness: true
   - path: deployments/pihole
     waitReadiness: true
+  - path: deployments/tailscale
+    waitReadiness: true
 
   - path: components/podsecurity
     onlyRender: true
