@@ -26,3 +26,5 @@ deployments:
     onlyRender: true
   - path: components/remove-helm-hooks
     onlyRender: true
+  - path: components/reloader
+    onlyRender: true

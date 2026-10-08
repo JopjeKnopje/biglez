@@ -11,3 +11,6 @@ resources:
   - certs.yaml
   - helm-render/install.yaml
   # - bitwarden/token-secret.yaml # manually generated see README
+
+components:
+  - ../../components/reloader/

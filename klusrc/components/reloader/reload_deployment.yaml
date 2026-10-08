@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  # has to be set for the patch to build
+  name: _
+  annotations:
+    reloader.stakater.com/auto: "true"
