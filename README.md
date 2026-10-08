@@ -211,6 +211,15 @@ Summary: I'm already saving `~100EUR` this year by running it myself.
 
 ### Renovate install
 
+### 2026-10-08: Pretty sure I fixed the issues regarding the external-secrets certifcate to be outdated
+This was caused by the `bitwarden-css-certs` being expired, cert manager tried creating a new one using the `bitwarden-certificate-issuer`.
+Which was looking for the `bitwarden-bootstrap-certs` secret, that is created by the `bitwarden-bootstrap-issuer`.
+
+The bootstrap issuer couldn't find the `bitwarden-bootstrap-certs` because the secret was stored in the namespace `external-secrets` instead of the `cert-manager`.
+
+Fixing this validated all the certifcate, and we should've been up and running again. But no, we had to manually restart the containers because the certifcates stored in the secrets changed. That why I added a reloader patch to the bitwarden and ESO deployment.
+
+
 
 ### 2026-10-01: Setup tailscale
 I followed these steps to generate the RBAC file: https://tailscale.com/docs/kubernetes#prerequisites

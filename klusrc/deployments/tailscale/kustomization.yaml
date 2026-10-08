@@ -7,6 +7,3 @@ resources:
   - deployment.yaml
   - external-secret.yaml
   - rbac.yaml
-  # - secret.yaml
-
-

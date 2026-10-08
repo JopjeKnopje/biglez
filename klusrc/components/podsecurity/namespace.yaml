@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
+  # has to be set for the patch to build
   name: _
   labels:
     pod-security.kubernetes.io/enforce: restricted

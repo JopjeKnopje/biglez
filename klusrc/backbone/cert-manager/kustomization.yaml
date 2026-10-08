@@ -3,6 +3,8 @@ kind: Kustomization
 resources:
   # https://github.com/cert-manager/cert-manager/releases/download/v1.19.4/cert-manager.yaml
   - install.yaml
+  - certs/bitwarden-bootstrap-cert.yaml
+
 patches:
   - path: namespace.yaml
   # Append the enable-gateway-api config argument to the controller args
