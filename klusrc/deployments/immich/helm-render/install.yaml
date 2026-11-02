@@ -8,8 +8,8 @@ metadata:
     app.kubernetes.io/instance: immich
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: machine-learning
-    app.kubernetes.io/version: v3.0.0
-    helm.sh/chart: immich-0.13.1
+    app.kubernetes.io/version: v3.2.0
+    helm.sh/chart: immich-0.13.4
   namespace: immich
 ---
 # Source: immich/templates/server.yaml
@@ -21,8 +21,8 @@ metadata:
     app.kubernetes.io/instance: immich
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: server
-    app.kubernetes.io/version: v3.0.0
-    helm.sh/chart: immich-0.13.1
+    app.kubernetes.io/version: v3.2.0
+    helm.sh/chart: immich-0.13.4
   namespace: immich
 ---
 # Source: immich/templates/valkey.yaml
@@ -34,8 +34,8 @@ metadata:
     app.kubernetes.io/instance: immich
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: valkey
-    app.kubernetes.io/version: v3.0.0
-    helm.sh/chart: immich-0.13.1
+    app.kubernetes.io/version: v3.2.0
+    helm.sh/chart: immich-0.13.4
   namespace: immich
 ---
 # Source: immich/templates/valkey.yaml
@@ -47,8 +47,8 @@ metadata:
     app.kubernetes.io/instance: immich
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: valkey
-    app.kubernetes.io/version: v3.0.0
-    helm.sh/chart: immich-0.13.1
+    app.kubernetes.io/version: v3.2.0
+    helm.sh/chart: immich-0.13.4
   namespace: immich
 spec:
   accessModes:
@@ -68,8 +68,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: machine-learning
     app.kubernetes.io/service: immich-machine-learning
-    app.kubernetes.io/version: v3.0.0
-    helm.sh/chart: immich-0.13.1
+    app.kubernetes.io/version: v3.2.0
+    helm.sh/chart: immich-0.13.4
   namespace: immich
 spec:
   type: ClusterIP
@@ -93,8 +93,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: server
     app.kubernetes.io/service: immich-server
-    app.kubernetes.io/version: v3.0.0
-    helm.sh/chart: immich-0.13.1
+    app.kubernetes.io/version: v3.2.0
+    helm.sh/chart: immich-0.13.4
   namespace: immich
 spec:
   type: ClusterIP
@@ -120,8 +120,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: valkey
     app.kubernetes.io/service: immich-valkey
-    app.kubernetes.io/version: v3.0.0
-    helm.sh/chart: immich-0.13.1
+    app.kubernetes.io/version: v3.2.0
+    helm.sh/chart: immich-0.13.4
   namespace: immich
 spec:
   type: ClusterIP
@@ -145,8 +145,8 @@ metadata:
     app.kubernetes.io/instance: immich
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: machine-learning
-    app.kubernetes.io/version: v3.0.0
-    helm.sh/chart: immich-0.13.1
+    app.kubernetes.io/version: v3.2.0
+    helm.sh/chart: immich-0.13.4
   namespace: immich
 spec:
   revisionHistoryLimit: 3
@@ -204,7 +204,7 @@ spec:
             value: immich-valkey
           - name: TRANSFORMERS_CACHE
             value: /cache
-          image: ghcr.io/immich-app/immich-machine-learning:v3.0.0
+          image: ghcr.io/immich-app/immich-machine-learning:v3.3.5
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 3
@@ -252,8 +252,8 @@ metadata:
     app.kubernetes.io/instance: immich
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: server
-    app.kubernetes.io/version: v3.0.0
-    helm.sh/chart: immich-0.13.1
+    app.kubernetes.io/version: v3.2.0
+    helm.sh/chart: immich-0.13.4
   namespace: immich
 spec:
   revisionHistoryLimit: 3
@@ -307,7 +307,7 @@ spec:
             value: http://immich-machine-learning:3003
           - name: REDIS_HOSTNAME
             value: immich-valkey
-          image: ghcr.io/immich-app/immich-server:v3.0.0
+          image: ghcr.io/immich-app/immich-server:v3.3.5
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 3
@@ -361,8 +361,8 @@ metadata:
     app.kubernetes.io/instance: immich
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: valkey
-    app.kubernetes.io/version: v3.0.0
-    helm.sh/chart: immich-0.13.1
+    app.kubernetes.io/version: v3.2.0
+    helm.sh/chart: immich-0.13.4
   namespace: immich
 spec:
   revisionHistoryLimit: 3
